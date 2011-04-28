@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Anware" basedir="." default="test">
+	<property name="classes.dir" value="${basedir}/bin"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="junit.forkmode" value="perTest"/>
+	<target name="test">
+		<junit 
+		  fork="yes"
+			showoutput="no"
+		  errorProperty="test.failed"
+		  failureProperty="test.failed"
+		  haltOnFailure="${test.halt-on-failure}"
+		  forkmode="${junit.forkmode}">
+			
+			<classpath>
+				<pathelement location="${classes.dir}"/>
+				<pathelement location="${lib.dir}/junit.jar"/>
+			</classpath>
+
+			<!-- #Formatters for capture and display 
+			
+			-->
+			<formatter type="brief" usefile="false" />
+			<formatter type="brief" />
+			<formatter type="xml" if="test.generate.xml.output" />
+
+			<!-- #Test case isolation technique -->
+			<test name="${testcase}" if="testcase" />
+
+			<batchtest unless="testcase">
+				<fileset dir="${classes.dir}">
+					<include name="**/Test*.class" />
+					<include name="**/*Test.class" />
+					<exclude name="**/Test*$*.class" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+</project>

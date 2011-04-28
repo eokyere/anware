@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="main_title">Android Anware</string>
     <string name="app_name">Anware</string>
+    <string name="main_title">Android Oware</string>
     <string name="new_game_label">New Game</string>
-    <string name="about_label">About</string>
+    <string name="about_label">About Anware</string>
     <string name="exit_label">Exit</string>
+    
+    <string name="about_title">About Anware</string>
+    <string name="about_text">\
+Anware (Android Oware) is blah blah blah blah
+</string>
 </resources>
