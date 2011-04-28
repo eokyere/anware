@@ -22,12 +22,12 @@ public abstract class Game {
 	 * Otherwise, it raises an Exception.
 	 */
 	public void move(int i) {
-		if (valid(i))
+		if (isValidMove(i))
 			play(i);
 		turn = (turn + 1) % 2;
 	}
 	
-	public abstract boolean valid(int i);
+	public abstract boolean isValidMove(int i);
 	abstract int sow(int from, int seeds);
 	abstract int pos(int n);
 	

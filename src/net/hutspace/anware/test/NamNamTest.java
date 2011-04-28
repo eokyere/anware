@@ -85,17 +85,15 @@ public class NamNamTest extends TestCase {
 			assertEquals(0, game.store(i));
 		
 		for (int i = 0; i < 6; ++i)
-			assertTrue("Player 1 can make move > " + i, game.valid(i));
+			assertTrue("Player 1 can make move > " + i, game.isValidMove(i));
 		for (int i = 6; i < 12; ++i)
-			assertFalse("Player 1 cannot make move > " + i, game.valid(i));
+			assertFalse("Player 1 cannot make move > " + i, game.isValidMove(i));
 	}
 	
 	public void testLegalMoveAtStart() {
 		game.move(0);
-		
-		int[] pits = new int[]{2, 7, 1, 6, 1, 6, 6, 6, 0, 1, 6, 6};
-		assertEquals(48, sum(pits));
-		validatePits(pits);
+		validatePits(new int[]{2, 7, 1, 6, 1, 6, 6, 6, 0, 1, 6, 6});
+		validateStores(new int[]{0, 0});
 	}
 
 	private void validatePits(int[] pits) {
@@ -103,28 +101,30 @@ public class NamNamTest extends TestCase {
 			assertEquals(pits[i], game.pit(i));
 	}
 	
+	private void validateStores(int[] stores) {
+		for (int i = 0; i < stores.length; ++i)
+			assertEquals(stores[i], game.store(i));
+	}
+	
 	public void testAPairOfLegalMoves() {
 		game.move(2);
 		validatePits(new int[]{6, 6, 2, 7, 1, 6, 1, 6, 6, 6, 0, 1});
+		validateStores(new int[]{0, 0});
 		game.move(6);
 		validatePits(new int[]{1, 9, 2, 10, 0, 0, 3, 0, 1, 10, 0, 0});
+		validateStores(new int[]{4, 8});
 	}
-	
 	
 	public void testPlayOutOfTurn() {
 	}
 	
-	
 	public void testAttemptToMoveFromEmptyPit() {
-		
 	}
 	
 	public void testBoardLimits() {
-		
 	}
 	
 	public void testMoveThatCaptures() {
-		
 	}
 	
 	protected void tearDown() throws Exception {

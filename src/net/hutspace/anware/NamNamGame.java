@@ -19,7 +19,7 @@ public class NamNamGame extends Game {
 	}
 	
 	@Override
-	public boolean valid(int i) {
+	public boolean isValidMove(int i) {
 		return turn == owner[i] && pit(i) >= 1;
 	}
 
