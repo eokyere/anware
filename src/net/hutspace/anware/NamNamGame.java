@@ -1,7 +1,10 @@
 package net.hutspace.anware;
 
+import java.util.logging.Logger;
+
 public class NamNamGame extends Game {
 	int[] owner;
+	private static Logger log = Logger.getLogger("net.hutspace.anware");
 	
 	public NamNamGame() {
 		super();
@@ -19,15 +22,22 @@ public class NamNamGame extends Game {
 	}
 	
 	@Override
-	public boolean isValidMove(int i) {
-		return turn == owner[i] && pit(i) >= 1;
+	public boolean valid(int i) {
+		return who == owner[i] && pit(i) >= 1;
 	}
 
-	int sow(int from, int seeds) {
-		System.out.println("Game.sow(" + from +", " + seeds + ")");
-		int x = from;
+	/**
+	 * Sows the seeds starting from the (emptied + 1) pit and returns the
+	 * index of the pit where the last seed is drop.
+	 * 
+	 * @param emptied the pit from which seeds are scooped to be sown
+	 * @param seeds the seeds to sow
+	 */
+	int sow(int emptied, int seeds) {
+		log.fine(String.format("Game.sow(%s, %s)", emptied, seeds));
+		int x = emptied;
 		for (int i = 0; i < seeds; ++i) {
-			x = pos(1 + i + from);
+			x = pos(1 + i + emptied);
 			pits[x] += 1;
 			checkHarvest(seeds, x, i);
 		}
@@ -41,8 +51,21 @@ public class NamNamGame extends Game {
 
 	private void checkHarvest(int seeds, int x, int i) {
 		if (pits[x] == 4) {
-			int who = i == seeds - 1 ? turn: owner[x];
+			int who = i == seeds - 1 ? turn(): owner[x];
 			stores[who] += scoop(x);
+			checkGameEnd(who);
 		}
+	}
+
+	private void checkGameEnd(int who) {
+		if (44 == stores[PLAYER_ONE] + stores[PLAYER_TWO]) {
+			stores[who] += 4;
+			clear();
+		}
+	}
+
+	private void clear() {
+		for (int i = 0; i < pits.length; ++i)
+			pits[i] = 0;
 	}
 }

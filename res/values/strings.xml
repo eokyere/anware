@@ -10,4 +10,6 @@
     <string name="about_text">\
 Anware (Android Oware) is blah blah blah blah
 </string>
+    <string name="game_title">Game</string>
+    <string name="board_title">Game</string>
 </resources>

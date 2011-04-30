@@ -1,5 +1,6 @@
-package net.hutspace.anware;
+package net.hutspace.anware.ui;
 
+import net.hutspace.anware.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,12 +8,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class Anware extends Activity implements OnClickListener {
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         findViewById(R.id.about_button).setOnClickListener(this);
+        findViewById(R.id.exit_button).setOnClickListener(this);
+        findViewById(R.id.new_game_button).setOnClickListener(this);
     }
 
 	@Override
@@ -25,7 +27,7 @@ public class Anware extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.new_game_button:
-			//TODO
+			startActivity(new Intent(this, GameActivity.class));
 		}
 	}
 }
