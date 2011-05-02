@@ -1,4 +1,4 @@
-package net.hutspace.anware;
+package net.hutspace.anware.core;
 
 import java.util.logging.Logger;
 

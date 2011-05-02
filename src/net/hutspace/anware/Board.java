@@ -1,4 +1,4 @@
-package net.hutspace.anware.ui;
+package net.hutspace.anware;
 
 import android.content.Context;
 import android.graphics.Canvas;

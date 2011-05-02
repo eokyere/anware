@@ -6,19 +6,20 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name="ui.Anware"
+        <activity android:name=".Anware"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ui.About"
+        <activity android:name=".About"
                   android:label="@string/about_title"
                   android:theme="@android:style/Theme.Dialog">
         </activity>
-        <activity android:name="ui.Game"
-                  android:label="@string/game_title">
+        <activity android:name=".GameActivity"
+                  android:label="@string/game_title"
+                  android:screenOrientation="landscape">
         </activity>
     </application>
 </manifest>

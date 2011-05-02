@@ -1,4 +1,4 @@
-package net.hutspace.anware.ui;
+package net.hutspace.anware;
 
 import net.hutspace.anware.R;
 import android.app.Activity;
