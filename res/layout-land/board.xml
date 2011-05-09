@@ -1,82 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<net.hutspace.anware.Board 
+	android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+	android:background="@color/background"
+</merge>
+ -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:background="@color/background"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" 
 	android:padding="10dp">
-	<LinearLayout android:id="@+id/linearLayout2"
-		android:layout_height="match_parent" android:layout_width="wrap_content">
-		<ImageButton android:id="@+id/store1"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_gravity="center" android:tag="store1"
-			android:minWidth="45dp" />
-		<LinearLayout android:orientation="vertical" android:id="@+id/linearLayout1"
-			android:layout_gravity="center" android:layout_height="wrap_content"
-			android:layout_width="wrap_content" android:paddingRight="5dp"
-			android:paddingLeft="5dp">
-			<TextView android:textSize="12sp" android:layout_gravity="center"
-				android:id="@+id/textView1" android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:text="@string/board_title"
-				android:layout_marginBottom="5dp"></TextView>
-			<TableLayout android:layout_gravity="center"
-				android:layout_height="wrap_content" android:id="@+id/tableLayout1"
-				android:layout_width="wrap_content" android:stretchColumns="*">
-				<TableRow android:layout_height="wrap_content" android:id="@+id/tableRow1"
-					android:layout_width="wrap_content">
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="11" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit11"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="10" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit10"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="9" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit9"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="8" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit8"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="7" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit7"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="6" android:layout_width="wrap_content"
-						android:layout_marginLeft="0dp" android:id="@+id/pit6"/>
-				</TableRow>
-				<TableRow android:layout_height="wrap_content" android:id="@+id/tableRow2"
-					android:layout_width="wrap_content">
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="0" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit0"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="1" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit1"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="2" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit2"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="3" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit3"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="4" android:layout_width="wrap_content"
-						android:layout_marginRight="4dp" android:layout_marginLeft="0dp"
-						android:id="@+id/pit4"/>
-					<ImageButton android:layout_height="wrap_content"
-						android:tag="5" android:layout_width="wrap_content"
-						android:layout_marginLeft="0dp" android:id="@+id/pit5"/>
-				</TableRow>
-			</TableLayout>
-		</LinearLayout>
-
-		<ImageButton android:tag="store0" android:layout_gravity="center"
-			android:layout_height="wrap_content" android:layout_width="wrap_content"
-			android:id="@+id/store0" android:minWidth="45dp"/>
-	</LinearLayout>
+<net.hutspace.anware.Board 
+	android:layout_width="fill_parent" android:layout_height="fill_parent"/>
 </LinearLayout>

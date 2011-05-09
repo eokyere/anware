@@ -2,30 +2,44 @@ package net.hutspace.anware;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Path.Direction;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class Pit extends View {
-	private float width;
-	private float radius;
-
+	private static Paint paint = new Paint();
+	public static final float W = 54.0f;
 
 	public Pit(Context context) {
 		super(context);
 	}
 
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		width = w;
-		//radius = 5/12 * width;
-		super.onSizeChanged(w, h, oldw, oldh);
+	public Pit(Context context, AttributeSet attrs) {
+		super(context, attrs);
 	}
 	
-	
+	public Pit(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
+
+	@Override
+	protected void onMeasure(int w, int h) {
+		super.onMeasure(w, h);
+		final float dpi = getResources().getDisplayMetrics().density;
+        final int x = (int)(W * dpi);
+		setMeasuredDimension(x, x);
+    }
+		
 	@Override
 	protected void onDraw(Canvas canvas) {
-		Path path = new Path();
-		path.addCircle(50, 50, 40, Direction.CW);
+		paint.setColor(Color.WHITE);
+		paint.setStyle(Style.STROKE);
+		final float cx = getWidth() / 2;
+		final float r = cx - 2;
+		canvas.drawCircle(cx, cx, r, paint);
+		canvas.drawText("" + getId(), cx, cx, paint);
 	}
+	
 }
