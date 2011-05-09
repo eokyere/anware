@@ -13,7 +13,7 @@ import android.view.View;
 public class Pit extends View {
 	static Paint paint = new Paint();
 	public static final float W = 54.0f;
-	private Board board;
+	protected Board board;
 	
 	public Pit(Context context) {
 		super(context);
@@ -35,11 +35,11 @@ public class Pit extends View {
 		final float cx = getWidth() / 2;
 		final float r = cx - 2;
 		canvas.drawCircle(cx, cx, r, paint);
-		final int id = getId();
-		Log.d("Pit", String.format("onDraw (%s)", id));
-		final int seeds = board.seeds(id);
-		Log.d("Pit", String.format("onDraw (%s, %s)", id, seeds));
-		canvas.drawText("" + seeds, cx, cx, paint);
+		canvas.drawText("" + seeds(), cx, cx, paint);
+	}
+	
+	int seeds() {
+		return board.pit(getId() - 1);
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class Pit extends View {
 			return super.onTouchEvent(event);
 		
 		final int index = getId();
-		board.move(index);
+		board.move(index - 1);
 		Log.d("Pit", String.format("onTouchEvent (%s)", index));
 		return true;
 	}

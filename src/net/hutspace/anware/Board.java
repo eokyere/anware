@@ -42,13 +42,17 @@ public class Board extends RelativeLayout {
 		//this.game = game;
 	}
 	
-	public int seeds(final int i) {
-		return game.pit(i - 1);
+	public int pit(final int i) {
+		return game.pit(i);
+	}
+	
+	public int store(final int i) {
+		return game.store(i);
 	}
 	
 	public void move(final int i) {
 		try {
-			game.move(i - 1);
+			game.move(i);
 			invalidate();
 		} catch (IllegalMove e) {
 			startAnimation(AnimationUtils.loadAnimation(activity, R.anim.shake));
