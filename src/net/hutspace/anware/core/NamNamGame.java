@@ -1,10 +1,9 @@
 package net.hutspace.anware.core;
 
-import java.util.logging.Logger;
+import android.util.Log;
 
 public class NamNamGame extends Game {
 	int[] owner;
-	private static Logger log = Logger.getLogger("net.hutspace.anware");
 	
 	public NamNamGame() {
 		super();
@@ -34,7 +33,7 @@ public class NamNamGame extends Game {
 	 * @param seeds the seeds to sow
 	 */
 	int sow(int emptied, int seeds) {
-		log.fine(String.format("Game.sow(%s, %s)", emptied, seeds));
+		Log.d("NamNam", String.format("sow(%s, %s)", emptied, seeds));
 		int x = emptied;
 		for (int i = 0; i < seeds; ++i) {
 			x = pos(1 + i + emptied);

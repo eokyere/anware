@@ -1,5 +1,8 @@
 package net.hutspace.anware;
 
+import net.hutspace.anware.core.Game;
+import net.hutspace.anware.core.IllegalMove;
+import net.hutspace.anware.core.NamNamGame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,9 +11,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
 public class Board extends RelativeLayout {
+	private GameActivity activity;
+	private Game game;
 	private static final String TAG = "Board";
 	static final int below = RelativeLayout.BELOW;
 	static final int leftOf = RelativeLayout.LEFT_OF;
@@ -19,35 +25,52 @@ public class Board extends RelativeLayout {
 
 	public Board(Context context) {
 		super(context);
-		init();
+		init(context);
 	}
 
 	public Board(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
+		init(context);
 	}
 
 	public Board(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
+		init(context);
+	}
+	
+	public void setGame(final Game game) {
+		//this.game = game;
+	}
+	
+	public int seeds(final int i) {
+		return game.pit(i - 1);
+	}
+	
+	public void move(final int i) {
+		try {
+			game.move(i - 1);
+			invalidate();
+		} catch (IllegalMove e) {
+			startAnimation(AnimationUtils.loadAnimation(activity, R.anim.shake));
+		}
 	}
 
-	private void init() {
-		Log.d(TAG, "init()");
-		setGravity(Gravity.CENTER);
-		setFocusable(true);
-		setFocusableInTouchMode(true);
-
-		Tview center = new Tview(getContext());
-		center.setId(100);
-		center.setLayoutParams(cp());
-		addView(center);
-		
-		addView(updatePit(createPit(1000), new int[][] {{rightOf, 6}}, cp()));
-		addView(updatePit(createPit(2000), new int[][] {{leftOf, 12}}, cp()));
-
+	@Override
+	protected void onDraw(Canvas canvas) {
+		TView center = addCenter();
 		drawTopPits(center.getId());
 		drawBottomPits(center.getId());
+		drawStores();
+	}
+
+	private void init(Context context) {
+		Log.d(TAG, "init()");
+		game = new NamNamGame();
+		activity = (GameActivity) context;
+		setFocusable(true);
+		setFocusableInTouchMode(true);
+		setGravity(Gravity.CENTER);
+		setWillNotDraw(false);
 	}
 
 	private RelativeLayout.LayoutParams cp() {
@@ -74,6 +97,19 @@ public class Board extends RelativeLayout {
 		addView(createPit(6, new int[][] {{below, cId}, {rightOf, 5}}));
 	}
 
+	private void drawStores() {
+		addView(updatePit(createStore(1000), new int[][] {{rightOf, 6}}, cp()));
+		addView(updatePit(createStore(2000), new int[][] {{leftOf, 12}}, cp()));
+	}
+
+	private TView addCenter() {
+		TView center = new TView(getContext());
+		center.setId(100);
+		center.setLayoutParams(cp());
+		addView(center);
+		return center;
+	}
+
 	private Pit createPit(final int id) {
 		final Context context = getContext();
 		final Pit pit = new Pit(context);
@@ -81,6 +117,13 @@ public class Board extends RelativeLayout {
 		return pit;
 	}
 
+	private Pit createStore(final int id) {
+		final Context context = getContext();
+		final Pit pit = new Store(context);
+		pit.setId(id);
+		return pit;
+	}
+	
 	private Pit createPit(final int id, int[][] rules) {
 		return updatePit(createPit(id), rules, lp());
 	}
@@ -100,26 +143,36 @@ public class Board extends RelativeLayout {
 		final int wc = LayoutParams.WRAP_CONTENT;
 		return new RelativeLayout.LayoutParams(wc, wc);
 	}
-}
-
-class Tview extends View {
-	public Tview(Context context) {
-		super(context);
-	}
 	
-	@Override
-	public void onMeasure(int x, int y) {
-		float dpi = getResources().getDisplayMetrics().density;
-		setMeasuredDimension((int) (2 * dpi), (int) (10 * dpi));
+	private static class TView extends View {
+		int width = 2;
+		int height = 10;
+		
+		public TView(Context context) {
+			super(context);
+		}
+		
+		public TView(Context context, int w, int h) {
+			super(context);
+			width = w;
+			height = h;
+		}
+		
+		@Override
+		public void onMeasure(int x, int y) {
+			float dpi = getResources().getDisplayMetrics().density;
+			setMeasuredDimension((int) (width * dpi), (int) (height * dpi));
+		}
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+			paint.setColor(Color.DKGRAY);
+			canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+		}
+
+		private static Paint paint = new Paint();
+
 	}
-
-
-	@Override
-	protected void onDraw(Canvas canvas) {
-		paint.setColor(Color.DKGRAY);
-		canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
-	}
-
-	private static Paint paint = new Paint();
 
 }
+
