@@ -1,6 +1,7 @@
 package net.hutspace.anware;
 
 import net.hutspace.anware.core.Game;
+import net.hutspace.anware.core.GameListener;
 import net.hutspace.anware.core.IllegalMove;
 import net.hutspace.anware.core.NamNamGame;
 import android.content.Context;
@@ -14,14 +15,16 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
-public class Board extends RelativeLayout {
-	private GameActivity activity;
-	private Game game;
+public class Board extends RelativeLayout implements GameListener {
 	private static final String TAG = "Board";
+
 	static final int below = RelativeLayout.BELOW;
 	static final int leftOf = RelativeLayout.LEFT_OF;
 	static final int rightOf = RelativeLayout.RIGHT_OF;
 	static final int above = RelativeLayout.ABOVE;
+
+	private GameActivity ctx;
+	private Game game;
 
 	public Board(Context context) {
 		super(context);
@@ -38,10 +41,6 @@ public class Board extends RelativeLayout {
 		init(context);
 	}
 	
-	public void setGame(final Game game) {
-		//this.game = game;
-	}
-	
 	public int pit(final int i) {
 		return game.pit(i);
 	}
@@ -51,30 +50,74 @@ public class Board extends RelativeLayout {
 	}
 	
 	public void move(final int i) {
-		try {
-			game.move(i);
-			invalidate();
-		} catch (IllegalMove e) {
-			startAnimation(AnimationUtils.loadAnimation(activity, R.anim.shake));
-		}
+		new Thread(new Runnable()  {
+			public void run() {
+				try {
+					game.move(i);
+					post(new Runnable() {
+						public void run() {
+							findViewById(1000).invalidate();
+							findViewById(2000).invalidate();
+						}
+					});
+				} catch (IllegalMove e) {
+					post(new Runnable() {
+						public void run() {
+							startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.shake));
+						}
+					});
+				}
+			}
+		}).start();
+	}
+	
+	@Override
+	public void scoop(final int i, int seeds) {
+		Log.d(TAG, String.format("scoop(%s, %s)", i, seeds));
+		post(new Runnable() {
+			public void run() {
+				findViewById(i + 1).invalidate();				
+			}
+		});
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
+	public void sow(final int x) {
+		Log.d(TAG, String.format("sow(%s)", x));
+		post(new Runnable() {
+			public void run() {
+				findViewById(x + 1).invalidate();
+			}
+		});
+	}
+
+	@Override
+	public void harvest(final int i, final int who) {
+		post(new Runnable() {
+			public void run() {
+				findViewById(i + 1).invalidate();
+				findViewById((who + 1) * 1000).invalidate();
+			}
+		});
+	}
+	
+	private void draw() {
 		TView center = addCenter();
 		drawTopPits(center.getId());
 		drawBottomPits(center.getId());
 		drawStores();
 	}
-
-	private void init(Context context) {
+    
+    private void init(Context context) {
 		Log.d(TAG, "init()");
 		game = new NamNamGame();
-		activity = (GameActivity) context;
-		setFocusable(true);
-		setFocusableInTouchMode(true);
+		game.setGameListener(this);
+		ctx = (GameActivity) context;
+		//setFocusable(true);
+		//setFocusableInTouchMode(true);
 		setGravity(Gravity.CENTER);
-		setWillNotDraw(false);
+		//setWillNotDraw(false);
+		draw();
 	}
 
 	private RelativeLayout.LayoutParams cp() {

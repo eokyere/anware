@@ -38,6 +38,8 @@ public class NamNamGame extends Game {
 		for (int i = 0; i < seeds; ++i) {
 			x = pos(1 + i + emptied);
 			pits[x] += 1;
+			if (gameListener != null)
+				gameListener.sow(x);
 			checkHarvest(seeds, x, i);
 		}
 		
@@ -52,6 +54,8 @@ public class NamNamGame extends Game {
 		if (pits[x] == 4) {
 			int who = i == seeds - 1 ? turn(): owner[x];
 			stores[who] += scoop(x);
+			if (gameListener != null)
+				gameListener.harvest(x, who);
 			checkGameEnd(who);
 		}
 	}
@@ -59,11 +63,11 @@ public class NamNamGame extends Game {
 	private void checkGameEnd(int who) {
 		if (44 == stores[PLAYER_ONE] + stores[PLAYER_TWO]) {
 			stores[who] += 4;
-			clear();
+			clearPits();
 		}
 	}
 
-	private void clear() {
+	private void clearPits() {
 		for (int i = 0; i < pits.length; ++i)
 			pits[i] = 0;
 	}

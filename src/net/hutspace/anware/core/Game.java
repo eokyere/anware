@@ -10,6 +10,12 @@ public abstract class Game {
 	int[] stores;
 	int who;
 	
+	public void setGameListener(GameListener gameListener) {
+		this.gameListener = gameListener;
+	}
+
+	GameListener gameListener;
+	
 	Game() {
 		pits = new int[12];
 		stores = new int[2];
@@ -77,6 +83,8 @@ public abstract class Game {
 	public int scoop(int i) {
 		int seeds = pit(i);
 		pits[i] = 0;
+		if (gameListener!= null)
+			gameListener.scoop(i, seeds);
 		Log.d("Game", String.format("scoop(%s) = %s", i, seeds));
 		return seeds;
 	}

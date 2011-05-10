@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class Pit extends View {
+	private static final String TAG = "Pit";
 	static Paint paint = new Paint();
 	public static final float W = 54.0f;
 	protected Board board;
@@ -32,6 +33,7 @@ public class Pit extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		Log.d(TAG, String.format("onDraw(%s)", getId()));
 		final float cx = getWidth() / 2;
 		final float r = cx - 2;
 		canvas.drawCircle(cx, cx, r, paint);
@@ -55,7 +57,7 @@ public class Pit extends View {
 		
 		final int index = getId();
 		board.move(index - 1);
-		Log.d("Pit", String.format("onTouchEvent (%s)", index));
+		Log.d(TAG, String.format("onTouchEvent (%s)", index));
 		return true;
 	}
 	
