@@ -18,6 +18,8 @@ public class NamNamGame extends Game {
 			owner[i] = PLAYER_ONE;
 		for (int i = 6; i < 12; ++i)
 			owner[i] = PLAYER_TWO;
+		
+		snap();
 	}
 	
 	@Override
@@ -38,8 +40,8 @@ public class NamNamGame extends Game {
 		for (int i = 0; i < seeds; ++i) {
 			x = pos(1 + i + emptied);
 			pits[x] += 1;
-			if (gameListener != null)
-				gameListener.sow(x);
+			if (listener != null)
+				listener.onSow(x);
 			checkHarvest(seeds, x, i);
 		}
 		
@@ -54,8 +56,8 @@ public class NamNamGame extends Game {
 		if (pits[x] == 4) {
 			int who = i == seeds - 1 ? turn(): owner[x];
 			stores[who] += scoop(x);
-			if (gameListener != null)
-				gameListener.harvest(x, who);
+			if (listener != null)
+				listener.onHarvest(x, who);
 			checkGameEnd(who);
 		}
 	}

@@ -1,8 +1,9 @@
 package net.hutspace.anware.core;
 
 public interface GameListener {
-
-	void scoop(final int i, int seeds);
-	void sow(final int x);
-	void harvest(final int x, final int who);
+	void onScoop(final int i, int seeds);
+	void onSow(final int x);
+	void onHarvest(final int x, final int who);
+	void onUndo();
+	void onRedo();
 }

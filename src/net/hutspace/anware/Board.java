@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class Board extends RelativeLayout implements GameListener {
 	private static final String TAG = "Board";
@@ -41,6 +43,10 @@ public class Board extends RelativeLayout implements GameListener {
 		init(context);
 	}
 	
+	public Game getGame() {
+		return game;
+	}
+	
 	public int pit(final int i) {
 		return game.pit(i);
 	}
@@ -56,8 +62,7 @@ public class Board extends RelativeLayout implements GameListener {
 					game.move(i);
 					post(new Runnable() {
 						public void run() {
-							findViewById(1000).invalidate();
-							findViewById(2000).invalidate();
+							ctx.update(game);
 						}
 					});
 				} catch (IllegalMove e) {
@@ -72,46 +77,74 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 	
 	@Override
-	public void scoop(final int i, int seeds) {
-		Log.d(TAG, String.format("scoop(%s, %s)", i, seeds));
+	public void onScoop(final int id, int seeds) {
+		Log.d(TAG, String.format("scoop(%s, %s)", id, seeds));
 		post(new Runnable() {
 			public void run() {
-				findViewById(i + 1).invalidate();				
+				final int pitId = id + 1;
+				findViewById(pitId).invalidate();				
 			}
 		});
 	}
 
 	@Override
-	public void sow(final int x) {
-		Log.d(TAG, String.format("sow(%s)", x));
+	public void onSow(final int id) {
+		Log.d(TAG, String.format("sow(%s)", id));
 		post(new Runnable() {
 			public void run() {
-				findViewById(x + 1).invalidate();
+				final int pitId = id + 1;
+				findViewById(pitId).invalidate();
 			}
 		});
 	}
 
 	@Override
-	public void harvest(final int i, final int who) {
+	public void onHarvest(final int id, final int who) {
 		post(new Runnable() {
 			public void run() {
-				findViewById(i + 1).invalidate();
-				findViewById((who + 1) * 1000).invalidate();
+				final int pitId = id + 1;
+				final int storeId = (who + 1) * 1000;
+				findViewById(pitId).invalidate();
+				findViewById(storeId).invalidate();
 			}
 		});
 	}
 	
-	private void draw() {
-		TView center = addCenter();
-		drawTopPits(center.getId());
-		drawBottomPits(center.getId());
-		drawStores();
+	@Override
+	public void onUndo() {
+		Log.d(TAG, "onUndo");
+		post(new Runnable() {
+			public void run() {
+				refresh();
+			}
+
+		});
 	}
-    
-    private void init(Context context) {
+
+	@Override
+	public void onRedo() {
+		Log.d(TAG, "onRedo");
+		post(new Runnable() {
+			public void run() {
+				refresh();
+			}
+		});
+	}
+	
+	private void refresh() {
+		for (int pitId = 1; pitId < 13; ++pitId)
+			findViewById(pitId).invalidate();
+		for (int i = 1; i < 3; ++i) {
+			final int storeId = i * 1000;
+			findViewById(storeId).invalidate();
+		}
+		ctx.update(game);
+	}
+
+	private void init(Context context) {
 		Log.d(TAG, "init()");
 		game = new NamNamGame();
-		game.setGameListener(this);
+		game.setListener(this);
 		ctx = (GameActivity) context;
 		//setFocusable(true);
 		//setFocusableInTouchMode(true);
@@ -120,6 +153,13 @@ public class Board extends RelativeLayout implements GameListener {
 		draw();
 	}
 
+    private void draw() {
+    	TView center = addCenter();
+    	drawTopPits(center.getId());
+    	drawBottomPits(center.getId());
+    	drawStores();
+    }
+    
 	private RelativeLayout.LayoutParams cp() {
 		final RelativeLayout.LayoutParams p = lp();
 		p.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -220,6 +260,5 @@ public class Board extends RelativeLayout implements GameListener {
 		private static Paint paint = new Paint();
 
 	}
-
 }
 

@@ -40,7 +40,7 @@ public class Pit extends View {
 		canvas.drawText("" + seeds(), cx, cx, paint);
 	}
 	
-	int seeds() {
+	protected int seeds() {
 		return board.pit(getId() - 1);
 	}
 	
