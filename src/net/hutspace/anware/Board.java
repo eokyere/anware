@@ -146,10 +146,7 @@ public class Board extends RelativeLayout implements GameListener {
 		game = new NamNamGame();
 		game.setListener(this);
 		ctx = (GameActivity) context;
-		//setFocusable(true);
-		//setFocusableInTouchMode(true);
 		setGravity(Gravity.CENTER);
-		//setWillNotDraw(false);
 		draw();
 	}
 

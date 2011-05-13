@@ -54,14 +54,10 @@ public abstract class Game {
 	 */
 	public void move(int i) throws IllegalMove {
 		if (valid(i)){
-			// set sublist in java
-			if (index < moves.size()) {
-				Log.d("Game", String.format("index < moves.size(%s, %s)", index, moves.size()));
-				history.subList(index, history.size()).clear();
-				moves.subList(index - 1, moves.size()).clear();
-				//positions.re
-				//positions.removeRange() = new ArrayList<Position>(positions.subList(0, index + 1));
-				//moves = new ArrayList<Integer>(moves.subList(0, index));
+			final int size = moves.size();
+			if (index < size) {
+				history.subList(index + 1, history.size()).clear();
+				moves.subList(index, size).clear();
 			}
 			
 			play(i);
@@ -170,8 +166,8 @@ public abstract class Game {
 	
 	private void restore(final int index) {
 		Position p = history.get(index);
-		pits = p.pits;
-		stores = p.stores;
+		pits = p.pits.clone();
+		stores = p.stores.clone();
 		who = p.who;
 	}
 
