@@ -9,14 +9,16 @@ import android.util.Log;
 public abstract class Game {
 	public static final int PLAYER_ONE = 0;
 	public static final int PLAYER_TWO = 1;
+	
 	int[] pits;
 	int[] stores;
 	int who;
-	List<Position> positions;
-	List<Integer> moves;
-	int index;
-	
 	GameListener listener;
+	
+	private List<Position> history;
+	private List<Integer> moves;
+	private int index;
+	
 	
 	private static class Position {
 		public Position(int[] pits, int[] stores, int who) {
@@ -41,7 +43,7 @@ public abstract class Game {
 		who = 0;
 		index = 0;
 		moves = new ArrayList<Integer>();
-		positions = new ArrayList<Position>();
+		history = new ArrayList<Position>();
 	}
 	
 	/**
@@ -52,17 +54,21 @@ public abstract class Game {
 	 */
 	public void move(int i) throws IllegalMove {
 		if (valid(i)){
-			
+			// set sublist in java
 			if (index < moves.size()) {
-				positions = positions.subList(0, index);
-				moves = moves.subList(0, index - 1);
+				Log.d("Game", String.format("index < moves.size(%s, %s)", index, moves.size()));
+				history.subList(index, history.size()).clear();
+				moves.subList(index - 1, moves.size()).clear();
+				//positions.re
+				//positions.removeRange() = new ArrayList<Position>(positions.subList(0, index + 1));
+				//moves = new ArrayList<Integer>(moves.subList(0, index));
 			}
 			
 			play(i);
-			snap();
 			moves.add(i);
 			++index;
 			who = next();
+			snap();
 		} else 
 			throw new IllegalMove();
 	}
@@ -71,7 +77,7 @@ public abstract class Game {
 	 * Take a snapshot of the current game position
 	 */
 	void snap() {
-		positions.add(new Position(pits.clone(), stores.clone(), who));
+		history.add(new Position(pits.clone(), stores.clone(), who));
 	}
 
 	public void undo() {
@@ -163,9 +169,21 @@ public abstract class Game {
 	}
 	
 	private void restore(final int index) {
-		Position p = positions.get(index);
+		Position p = history.get(index);
 		pits = p.pits;
 		stores = p.stores;
 		who = p.who;
+	}
+
+
+	public int getWinner() {
+		if (totalSeeds() == stores[PLAYER_ONE] + stores[PLAYER_TWO])
+			return stores[PLAYER_ONE] > stores[PLAYER_TWO] ? PLAYER_ONE : PLAYER_TWO;
+		return -1;
+	}
+
+
+	protected int totalSeeds() {
+		return 48;
 	}
 }
