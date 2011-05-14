@@ -3,8 +3,6 @@ package net.hutspace.anware.core;
 import android.util.Log;
 
 public class NamNamGame extends Game {
-	int[] owner;
-	
 	public NamNamGame() {
 		super();
 		
@@ -12,12 +10,6 @@ public class NamNamGame extends Game {
 			pits[i] = 4;
 		for (int i = 0; i < 2; ++i)
 			stores[i] = 0;
-		
-		owner = new int[12];
-		for (int i = 0; i < 6; ++i)
-			owner[i] = PLAYER_ONE;
-		for (int i = 6; i < 12; ++i)
-			owner[i] = PLAYER_TWO;
 		
 		snap();
 	}
@@ -27,6 +19,17 @@ public class NamNamGame extends Game {
 		return who == owner[i] && pit(i) >= 1;
 	}
 
+	@Override
+	public Game clone() {
+		final Game g = new NamNamGame();
+		g.pits = pits.clone();
+		g.stores = stores.clone();
+		g.who = who;
+		g.owner = owner.clone();
+		
+		return g;
+	}
+
 	/**
 	 * Sows the seeds starting from the (emptied + 1) pit and returns the
 	 * index of the pit where the last seed is drop.
@@ -34,6 +37,7 @@ public class NamNamGame extends Game {
 	 * @param emptied the pit from which seeds are scooped to be sown
 	 * @param seeds the seeds to sow
 	 */
+	@Override
 	int sow(int emptied, int seeds) {
 		Log.d("NamNam", String.format("sow(%s, %s)", emptied, seeds));
 		int x = emptied;

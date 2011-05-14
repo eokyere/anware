@@ -12,7 +12,9 @@ public abstract class Game {
 	
 	int[] pits;
 	int[] stores;
+	int[] owner;
 	int who;
+
 	GameListener listener;
 	
 	private List<Position> history;
@@ -44,7 +46,17 @@ public abstract class Game {
 		index = 0;
 		moves = new ArrayList<Integer>();
 		history = new ArrayList<Position>();
+
+		owner = new int[12];
+		for (int i = 0; i < 6; ++i)
+			owner[i] = PLAYER_ONE;
+		for (int i = 6; i < 12; ++i)
+			owner[i] = PLAYER_TWO;
+		
 	}
+	
+	@Override
+	public abstract Game clone();
 	
 	/**
 	 * If the move starting in the specified pit index is legal,
@@ -181,5 +193,14 @@ public abstract class Game {
 
 	protected int totalSeeds() {
 		return 48;
+	}
+
+
+	public List<Integer> validMoves() {
+		final List<Integer> xs = new ArrayList<Integer>();
+		for (int i = 0; i < pits.length; ++i)
+			if (valid(i))
+				xs.add(i);
+		return xs;
 	}
 }
