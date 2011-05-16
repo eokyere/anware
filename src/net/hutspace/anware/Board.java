@@ -1,5 +1,7 @@
 package net.hutspace.anware;
 
+import net.hutspace.anware.ai.AI;
+import net.hutspace.anware.ai.MiniMax;
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.GameListener;
 import net.hutspace.anware.core.IllegalMove;
@@ -13,9 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class Board extends RelativeLayout implements GameListener {
 	private static final String TAG = "Board";
@@ -27,7 +27,8 @@ public class Board extends RelativeLayout implements GameListener {
 
 	private GameActivity ctx;
 	private Game game;
-
+	private static AI ai = new MiniMax();
+	
 	public Board(Context context) {
 		super(context);
 		init(context);
@@ -65,6 +66,9 @@ public class Board extends RelativeLayout implements GameListener {
 							ctx.update(game);
 						}
 					});
+					if (game.getWinner() == -1 && game.turn() == 1 && Prefs.againstComputer(getContext())) {
+						move(ai.move(game));
+					}
 				} catch (IllegalMove e) {
 					post(new Runnable() {
 						public void run() {
@@ -108,6 +112,10 @@ public class Board extends RelativeLayout implements GameListener {
 				findViewById(storeId).invalidate();
 			}
 		});
+	}
+	
+	@Override
+	public void onNext() {
 	}
 	
 	@Override

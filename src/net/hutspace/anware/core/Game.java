@@ -76,6 +76,8 @@ public abstract class Game {
 			moves.add(i);
 			++index;
 			who = next();
+			if (listener != null)
+				listener.onNext();
 			snap();
 		} else 
 			throw new IllegalMove();

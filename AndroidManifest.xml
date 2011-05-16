@@ -18,6 +18,9 @@
                   android:label="@string/about_title"
                   android:theme="@android:style/Theme.Dialog">
         </activity>
+        <activity android:name=".Prefs"
+                  android:label="@string/settingsTitle">
+        </activity>
         <activity android:name=".GameActivity"
                   android:label="@string/game_title"
                   android:screenOrientation="landscape">
