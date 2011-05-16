@@ -17,4 +17,9 @@ Anware (Android Oware) is blah blah blah blah
     <string name="settingsShortcutKey">s</string>
     <string name="computerPrefTitle">1 Player</string>
     <string name="computerPrefSummary">Allows you to play against Android</string>
+    
+    <string name="player1">Player 1</string>
+    <string name="player2">Player 2</string>
+    <string name="random">Random</string>
+    <string name="selectStartingPlayer">Select the starting player</string>
 </resources>

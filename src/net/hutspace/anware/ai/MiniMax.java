@@ -19,7 +19,7 @@ public class MiniMax extends AI {
 				final Game g = game.clone();
 				try {
 					g.move(p);
-					final int val = minimax(g, 4);
+					final int val = minimax(g, 3);
 					if (val > score) {
 						score = val;
 						pit = p;

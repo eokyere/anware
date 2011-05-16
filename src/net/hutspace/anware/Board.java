@@ -5,7 +5,6 @@ import net.hutspace.anware.ai.MiniMax;
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.GameListener;
 import net.hutspace.anware.core.IllegalMove;
-import net.hutspace.anware.core.NamNamGame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -46,6 +45,12 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	public void setGame(Game g) {
+		game = g;
+		game.setListener(this);
+		draw();
 	}
 	
 	public int pit(final int i) {
@@ -151,11 +156,8 @@ public class Board extends RelativeLayout implements GameListener {
 
 	private void init(Context context) {
 		Log.d(TAG, "init()");
-		game = new NamNamGame();
-		game.setListener(this);
 		ctx = (GameActivity) context;
 		setGravity(Gravity.CENTER);
-		draw();
 	}
 
     private void draw() {

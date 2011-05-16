@@ -40,19 +40,23 @@ public abstract class Game {
 
 	
 	Game() {
+		this(PLAYER_ONE);
+	}
+
+
+	Game(final int startingPlayer) {
+		who = startingPlayer;
 		pits = new int[12];
 		stores = new int[2];
-		who = 0;
-		index = 0;
+		index = startingPlayer;
 		moves = new ArrayList<Integer>();
 		history = new ArrayList<Position>();
 
 		owner = new int[12];
-		for (int i = 0; i < 6; ++i)
+		for (int i = startingPlayer; i < 6; ++i)
 			owner[i] = PLAYER_ONE;
 		for (int i = 6; i < 12; ++i)
 			owner[i] = PLAYER_TWO;
-		
 	}
 	
 	@Override
