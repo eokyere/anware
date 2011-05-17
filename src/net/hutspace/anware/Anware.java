@@ -34,9 +34,9 @@ public class Anware extends Activity implements OnClickListener {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							final Intent intent = new Intent(context, GameActivity.class);
-							intent.putExtra(GameActivity.STARTING_PLAYER_KEY, which);
-							startActivity(intent);
+							final Intent i = new Intent(context, GameActivity.class);
+							i.putExtra(GameActivity.STARTING_PLAYER_KEY, which);
+							startActivity(i);
 						}
 					}).show();			
 			//startActivity(new Intent(this, GameActivity.class));
@@ -65,4 +65,12 @@ public class Anware extends Activity implements OnClickListener {
 		}
 		return false;
 	}
+	
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //Store the game state
+       // outState.putBundle("key", mSnakeView.saveState());
+    }
+
+	
 }

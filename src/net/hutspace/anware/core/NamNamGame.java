@@ -13,6 +13,11 @@ public class NamNamGame extends Game {
 		init();
 	}
 	
+	public NamNamGame(int who, int[] pits, int[] stores, int[] owner) {
+		super(who, pits, stores, owner);
+		init();
+	}
+
 	@Override
 	public boolean valid(int i) {
 		return who == owner[i] && pit(i) >= 1;

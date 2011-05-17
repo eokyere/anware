@@ -71,8 +71,10 @@ public class Board extends RelativeLayout implements GameListener {
 							ctx.update(game);
 						}
 					});
-					if (game.getWinner() == -1 && game.turn() == 1 && Prefs.againstComputer(getContext())) {
-						move(ai.move(game));
+					final int aiPlayer = 1;
+					if (Prefs.againstComputer(getContext())) {
+						if (game.getWinner() == -1 && game.turn() == aiPlayer)
+							move(ai.move(game));
 					}
 				} catch (IllegalMove e) {
 					post(new Runnable() {
@@ -174,6 +176,7 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 
 	private void drawTopPits(final int cId) {
+		
 		addView(createPit(12, new int[][] {{above, cId}, {leftOf, 11}}));
 		addView(createPit(11, new int[][] {{above, cId}, {leftOf, 10}}));
 		addView(createPit(10, new int[][] {{above, cId}, {leftOf, cId}}));
