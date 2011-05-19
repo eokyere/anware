@@ -1,9 +1,10 @@
 package net.hutspace.anware;
 
+import net.hutspace.anware.ai.AI;
+import net.hutspace.anware.ai.MiniMax;
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.GameListener;
 import net.hutspace.anware.core.IllegalMove;
-import net.hutspace.anware.core.NamNamGame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,7 +26,8 @@ public class Board extends RelativeLayout implements GameListener {
 
 	private GameActivity ctx;
 	private Game game;
-
+	private static AI ai = new MiniMax();
+	
 	public Board(Context context) {
 		super(context);
 		init(context);
@@ -43,6 +45,12 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	public void setGame(Game g) {
+		game = g;
+		game.setListener(this);
+		draw();
 	}
 	
 	public int pit(final int i) {
@@ -63,6 +71,11 @@ public class Board extends RelativeLayout implements GameListener {
 							ctx.update(game);
 						}
 					});
+					final int aiPlayer = 1;
+					if (Prefs.againstComputer(getContext())) {
+						if (game.getWinner() == -1 && game.turn() == aiPlayer)
+							move(ai.move(game));
+					}
 				} catch (IllegalMove e) {
 					post(new Runnable() {
 						public void run() {
@@ -109,6 +122,10 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 	
 	@Override
+	public void onNext() {
+	}
+	
+	@Override
 	public void onUndo() {
 		Log.d(TAG, "onUndo");
 		post(new Runnable() {
@@ -141,11 +158,8 @@ public class Board extends RelativeLayout implements GameListener {
 
 	private void init(Context context) {
 		Log.d(TAG, "init()");
-		game = new NamNamGame();
-		game.setListener(this);
 		ctx = (GameActivity) context;
 		setGravity(Gravity.CENTER);
-		draw();
 	}
 
     private void draw() {
@@ -162,6 +176,7 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 
 	private void drawTopPits(final int cId) {
+		
 		addView(createPit(12, new int[][] {{above, cId}, {leftOf, 11}}));
 		addView(createPit(11, new int[][] {{above, cId}, {leftOf, 10}}));
 		addView(createPit(10, new int[][] {{above, cId}, {leftOf, cId}}));

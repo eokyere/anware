@@ -54,10 +54,7 @@ public class Pit extends View {
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() != MotionEvent.ACTION_DOWN)
 			return super.onTouchEvent(event);
-		
-		final int index = getId();
-		board.move(index - 1);
-		Log.d(TAG, String.format("onTouchEvent (%s)", index));
+		board.move(getId() - 1);
 		return true;
 	}
 	

@@ -6,4 +6,5 @@ public interface GameListener {
 	void onHarvest(final int x, final int who);
 	void onUndo();
 	void onRedo();
+	void onNext();
 }

@@ -1,9 +1,14 @@
 package net.hutspace.anware;
 
-import net.hutspace.anware.R;
+import net.hutspace.anware.core.Game;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -20,9 +25,21 @@ public class Anware extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		
 		switch (v.getId()) {
 		case R.id.new_game_button:
-			startActivity(new Intent(this, GameActivity.class));
+			final Context context = this;
+			new AlertDialog.Builder(this).setTitle(R.string.new_game_label)
+			.setItems(R.array.startingPlayer, 
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							final Intent i = new Intent(context, GameActivity.class);
+							i.putExtra(GameActivity.STARTING_PLAYER_KEY, which);
+							startActivity(i);
+						}
+					}).show();			
+			//startActivity(new Intent(this, GameActivity.class));
 			break;
 		case R.id.about_button:
 			startActivity(new Intent(this, About.class));
@@ -31,4 +48,29 @@ public class Anware extends Activity implements OnClickListener {
 			finish();
 		}
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.settings:
+			startActivity(new Intent(this, Prefs.class));
+			return true;
+		}
+		return false;
+	}
+	
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //Store the game state
+       // outState.putBundle("key", mSnakeView.saveState());
+    }
+
+	
 }

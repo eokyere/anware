@@ -40,21 +40,37 @@ public abstract class Game {
 
 	
 	Game() {
-		pits = new int[12];
-		stores = new int[2];
-		who = 0;
+		this(PLAYER_ONE);
+	}
+
+
+	Game(final int startingPlayer) {
+		this(startingPlayer, new int[12], new int[2]);
+	}
+	
+	Game(final int who, final int[] pits, final int[] stores, int[] owner) {
+		this.who = who;
+		this.pits = pits;
+		this.stores = stores;
 		index = 0;
 		moves = new ArrayList<Integer>();
 		history = new ArrayList<Position>();
-
-		owner = new int[12];
-		for (int i = 0; i < 6; ++i)
-			owner[i] = PLAYER_ONE;
-		for (int i = 6; i < 12; ++i)
-			owner[i] = PLAYER_TWO;
 		
+		if (null == owner) {
+			owner = new int[12];
+			for (int i = 0; i < 6; ++i)
+				owner[i] = PLAYER_ONE;
+			for (int i = 6; i < 12; ++i)
+				owner[i] = PLAYER_TWO;
+		}
+		this.owner = owner;
 	}
 	
+	public Game(int who, int[] pits, int[] stores) {
+		this(who, pits, stores, null);
+	}
+
+
 	@Override
 	public abstract Game clone();
 	
@@ -76,6 +92,8 @@ public abstract class Game {
 			moves.add(i);
 			++index;
 			who = next();
+			if (listener != null)
+				listener.onNext();
 			snap();
 		} else 
 			throw new IllegalMove();
@@ -202,5 +220,20 @@ public abstract class Game {
 			if (valid(i))
 				xs.add(i);
 		return xs;
+	}
+
+
+	public int[] getPits() {
+		return pits;
+	}
+
+
+	public int[] getStores() {
+		return stores;
+	}
+
+
+	public int[] getOwners() {
+		return owner;
 	}
 }

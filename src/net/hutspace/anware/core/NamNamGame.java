@@ -5,15 +5,19 @@ import android.util.Log;
 public class NamNamGame extends Game {
 	public NamNamGame() {
 		super();
-		
-		for (int i = 0; i < 12; ++i)
-			pits[i] = 4;
-		for (int i = 0; i < 2; ++i)
-			stores[i] = 0;
-		
-		snap();
+		init();
+	}
+
+	public NamNamGame(final int who) {
+		super(who);
+		init();
 	}
 	
+	public NamNamGame(int who, int[] pits, int[] stores, int[] owner) {
+		super(who, pits, stores, owner);
+		init();
+	}
+
 	@Override
 	public boolean valid(int i) {
 		return who == owner[i] && pit(i) >= 1;
@@ -74,7 +78,19 @@ public class NamNamGame extends Game {
 	}
 
 	private void clearPits() {
+		setPits(0);
+	}
+
+	private void init() {
+		setPits(4);
+		for (int i = 0; i < 2; ++i)
+			stores[i] = 0;
+		
+		snap();
+	}
+	
+	private void setPits(final int val) {
 		for (int i = 0; i < pits.length; ++i)
-			pits[i] = 0;
+			pits[i] = val;
 	}
 }

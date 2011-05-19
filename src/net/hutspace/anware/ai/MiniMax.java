@@ -58,15 +58,14 @@ public class MiniMax extends AI {
 	}
 	
 	private static int eval(Game game) {
-		int p1 = 0;
-		int p2 = 0;
+		int seeds = 0;
 		for (int i = 0; i < 6; ++i)
-			p1 += game.pit(i);
+			seeds -= game.pit(i);
 		for (int i = 6; i < 12; ++i)
-			p2 += game.pit(i);
+			seeds += game.pit(i);
 
-		return (game.store(game.turn()) - game.store(game.next())) * 10 + 
-			   game.turn() == Game.PLAYER_ONE ? p1 - p2 : p2 - p1;
+		return (game.store(Game.PLAYER_TWO) - game.store(Game.PLAYER_ONE)) * 1000 + seeds;
+		
 	}
 	
 	private boolean leaf(Game game) {

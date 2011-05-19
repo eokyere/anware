@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.hutspace.anware.core.Game;
+import net.hutspace.anware.core.NamNamGame;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class GameActivity extends Activity {
+	public static final String STARTING_PLAYER_KEY = "net.hutspace.anware.startingPlayer";
+
 	private Board board;
+	private Game game;
 	private TextView txtInfo;
 	private List<View> pits;
 	
@@ -26,38 +30,86 @@ public class GameActivity extends Activity {
 		Button btnUndo = (Button) findViewById(R.id.btn_undo);
 		Button btnRedo = (Button) findViewById(R.id.btn_redo);
 		
-		pits = new ArrayList<View>();
-		for (int i = 1; i < 13; ++i)
-			pits.add(findViewById(i));
 		
 		btnUndo.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				board.getGame().undo();
+				game.undo();
 			}
 		});
 		
 		btnRedo.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				board.getGame().redo();
+				game.redo();
 			}
 		});
 		
-		update(board.getGame());
+		int startingPlayer = getIntent().getIntExtra(STARTING_PLAYER_KEY, 0);
+		if (startingPlayer == 2) {
+			startingPlayer = (int) (Math.floor(Math.random() * 10000)) % 2; 
+		}
+		game = new NamNamGame(startingPlayer);
+		
+//		if (null == savedInstanceState) {
+//		} else {
+//			Bundle map = savedInstanceState.getBundle("game");
+//			
+//			int[] pits = map.getIntArray("pits");
+//			int[] owner = map.getIntArray("owner");
+//			int[] stores = map.getIntArray("stores");
+//			int who = map.getInt("who");
+//			
+//			game = new NamNamGame(who, pits, stores, owner);
+//		}
+		board.setGame(game);
+
+		pits = new ArrayList<View>();
+		for (int i = 1; i < 13; ++i)
+			pits.add(findViewById(i));
+		
+		update(game);
 	}
 
 	public void update(Game game) {
-		if (game.getWinner() != -1) {
-			final int player = game.getWinner() == 0 ? 1 : 2;
-			setInfo(String.format("Player %s has won!!", player));
+		final int pId = game.getWinner();
+		if (pId != -1) {
+			setInfo(String.format("%s has won!!", playerName(pId)));
 			return;
 		}
 		
-		final int player = game.turn() == 0 ? 1 : 2;
-		setInfo(String.format("Player %s to play", player));
+		setInfo(String.format("%s to play", playerName(game.turn())));
 	}
 
+	private String playerName(final int pId) {
+		return String.format("Player %s", pId == 0 ? 1 : 2);
+	}
+	
+	
+	
+	 /**
+     * Save game state so that the user does not lose anything
+     * if the game process is killed while we are in the 
+     * background.
+     * 
+     * @return a Bundle with this view's state
+     */
+//    public Bundle saveState() {
+//        Bundle map = new Bundle();
+//        
+//        map.putIntArray("pits", game.getPits());
+//        map.putIntArray("stores", game.getStores());
+//        map.putIntArray("owner", game.getOwners());
+//        map.putInt("who", Integer.valueOf(game.turn()));
+//
+//        return map;
+//    }	
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+    	//outState.putBundle("game", saveState());
+    }
+	
 	private void setInfo(final String s) {
 		txtInfo.setText(s);
 	}
