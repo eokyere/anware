@@ -162,20 +162,20 @@ public class Board extends RelativeLayout implements GameListener {
 		setGravity(Gravity.CENTER);
 	}
 
-    private void draw() {
+    void draw() {
     	TView center = addCenter();
     	drawTopPits(center.getId());
     	drawBottomPits(center.getId());
     	drawStores();
     }
     
-	private RelativeLayout.LayoutParams cp() {
+	RelativeLayout.LayoutParams cp() {
 		final RelativeLayout.LayoutParams p = lp();
 		p.addRule(RelativeLayout.CENTER_IN_PARENT);
 		return p;
 	}
 
-	private void drawTopPits(final int cId) {
+	void drawTopPits(final int cId) {
 		
 		addView(createPit(12, new int[][] {{above, cId}, {leftOf, 11}}));
 		addView(createPit(11, new int[][] {{above, cId}, {leftOf, 10}}));
@@ -185,7 +185,7 @@ public class Board extends RelativeLayout implements GameListener {
 		addView(createPit(7, new int[][] {{above, cId}, {rightOf, 8}}));
 	}
 	
-	private void drawBottomPits(final int cId) {
+	void drawBottomPits(final int cId) {
 		addView(createPit(1, new int[][] {{below, cId}, {leftOf, 2}}));
 		addView(createPit(2, new int[][] {{below, cId}, {leftOf, 3}}));
 		addView(createPit(3, new int[][] {{below, cId}, {leftOf, cId}}));
@@ -194,7 +194,7 @@ public class Board extends RelativeLayout implements GameListener {
 		addView(createPit(6, new int[][] {{below, cId}, {rightOf, 5}}));
 	}
 
-	private void drawStores() {
+	void drawStores() {
 		addView(updatePit(createStore(1000), new int[][] {{rightOf, 6}}, cp()));
 		addView(updatePit(createStore(2000), new int[][] {{leftOf, 12}}, cp()));
 	}
@@ -207,25 +207,25 @@ public class Board extends RelativeLayout implements GameListener {
 		return center;
 	}
 
-	private Pit createPit(final int id) {
+	protected Pit createPit(final int id) {
 		final Context context = getContext();
 		final Pit pit = new Pit(context);
 		pit.setId(id);
 		return pit;
 	}
 
-	private Pit createStore(final int id) {
+	protected Pit createStore(final int id) {
 		final Context context = getContext();
 		final Pit pit = new Store(context);
 		pit.setId(id);
 		return pit;
 	}
 	
-	private Pit createPit(final int id, int[][] rules) {
+	Pit createPit(final int id, int[][] rules) {
 		return updatePit(createPit(id), rules, lp());
 	}
 
-	private Pit updatePit(final Pit pit, int[][] rules,
+	Pit updatePit(final Pit pit, int[][] rules,
 			final RelativeLayout.LayoutParams p) {
 		for (int i = 0; i < rules.length; ++i)
 			p.addRule(rules[i][0], rules[i][1]);

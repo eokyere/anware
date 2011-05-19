@@ -49,6 +49,7 @@ public class GameActivity extends Activity {
 		if (startingPlayer == 2) {
 			startingPlayer = (int) (Math.floor(Math.random() * 10000)) % 2; 
 		}
+		
 		game = new NamNamGame(startingPlayer);
 		
 //		if (null == savedInstanceState) {
@@ -107,6 +108,7 @@ public class GameActivity extends Activity {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+    	super.onSaveInstanceState(outState);
     	//outState.putBundle("game", saveState());
     }
 	
