@@ -13,7 +13,7 @@ import android.view.View;
 public class Pit extends View {
 	private static final String TAG = "Pit";
 	static Paint paint = new Paint();
-	public static final float W = 54.0f;
+	public static final float W = 56.0f;
 	protected Board board;
 	
 	public Pit(Context context) {

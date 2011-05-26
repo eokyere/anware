@@ -1,42 +1,43 @@
 package net.hutspace.anware.gui;
 
-import android.content.Context;
-import android.util.AttributeSet;
 import net.hutspace.anware.Board;
 import net.hutspace.anware.Pit;
 import net.hutspace.anware.R;
-import net.hutspace.anware.Store;
+import android.content.Context;
+import android.util.AttributeSet;
 
 public class WoodenBoard extends Board {
 
 	public WoodenBoard(Context context) {
 		super(context);
-		setBackgroundResource(R.drawable.wood);
+		init();
 	}
 
 	public WoodenBoard(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		setBackgroundResource(R.drawable.wood);
+		init();
 	}
 
 	public WoodenBoard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		setBackgroundResource(R.drawable.wood);
+		init();
 	}
 
 	@Override
 	protected Pit createPit(final int id) {
-		final Context context = getContext();
-		final Pit pit = new WoodenPit(context);
+		final Pit pit = new WoodenPit(getContext());
 		pit.setId(id);
 		return pit;
 	}
 
 	@Override
 	protected Pit createStore(final int id) {
-		final Context context = getContext();
-		final Pit pit = new Store(context);
+		final Pit pit = new WoodenStore(getContext());
 		pit.setId(id);
 		return pit;
+	}
+	
+	private void init() {
+		setBackgroundResource(R.drawable.wood);
 	}
 }
