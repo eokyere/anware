@@ -4,3 +4,4 @@
 TEST-*
 *.apk
 *.dex
+*.ap_
