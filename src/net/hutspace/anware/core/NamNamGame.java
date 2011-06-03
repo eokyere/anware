@@ -34,6 +34,14 @@ public class NamNamGame extends Game {
 		return g;
 	}
 
+	public boolean update() {
+		return false;
+	}
+	
+	public void sow(int emptied, int seeds, boolean wait) {
+		
+	}
+	
 	/**
 	 * Sows the seeds starting from the (emptied + 1) pit and returns the
 	 * index of the pit where the last seed is drop.
@@ -45,6 +53,7 @@ public class NamNamGame extends Game {
 	int sow(int emptied, int seeds) {
 		Log.d("NamNam", String.format("sow(%s, %s)", emptied, seeds));
 		int x = emptied;
+		
 		for (int i = 0; i < seeds; ++i) {
 			x = pos(1 + i + emptied);
 			pits[x] += 1;
@@ -86,7 +95,7 @@ public class NamNamGame extends Game {
 		for (int i = 0; i < 2; ++i)
 			stores[i] = 0;
 		
-		snap();
+		snapshot();
 	}
 	
 	private void setPits(final int val) {

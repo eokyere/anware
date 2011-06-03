@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.hutspace.anware.core.Game;
+import net.hutspace.anware.core.GameLoop;
 import net.hutspace.anware.core.NamNamGame;
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ public class GameActivity extends Activity {
 	private Game game;
 	private TextView txtInfo;
 	private List<View> pits;
+
+	private GameLoop loop;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,9 @@ public class GameActivity extends Activity {
 			pits.add(findViewById(i));
 		
 		update(game);
+		loop = new GameLoop(board, game);
+		loop.setRunning(true);
+		loop.start();
 	}
 
 	public void update(Game game) {

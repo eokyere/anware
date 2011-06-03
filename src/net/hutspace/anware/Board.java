@@ -176,7 +176,6 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 
 	private void drawTopPits(final int cId) {
-		
 		addView(createPit(12, new int[][] {{above, cId}, {leftOf, 11}}));
 		addView(createPit(11, new int[][] {{above, cId}, {leftOf, 10}}));
 		addView(createPit(10, new int[][] {{above, cId}, {leftOf, cId}}));

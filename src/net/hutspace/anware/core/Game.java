@@ -14,24 +14,26 @@ public abstract class Game {
 	int[] stores;
 	int[] owner;
 	int who;
+	int hand;
 
+	boolean moving;
+	
 	GameListener listener;
 	
 	private List<Position> history;
 	private List<Integer> moves;
 	private int index;
 	
-	
 	private static class Position {
+		int[] pits;
+		int[] stores;
+		int who;
+
 		public Position(int[] pits, int[] stores, int who) {
 			this.pits = pits;
 			this.stores = stores;
 			this.who = who;
 		}
-		
-		int[] pits;
-		int[] stores;
-		int who;
 	}
 	
 	public void setListener(GameListener listener) {
@@ -53,6 +55,8 @@ public abstract class Game {
 		this.pits = pits;
 		this.stores = stores;
 		index = 0;
+		hand = 0;
+		moving = false;
 		moves = new ArrayList<Integer>();
 		history = new ArrayList<Position>();
 		
@@ -80,21 +84,26 @@ public abstract class Game {
 	 * 
 	 * @throws IllegalMove 
 	 */
-	public void move(int i) throws IllegalMove {
+	public final void move(int i) throws IllegalMove {
 		if (valid(i)){
+			// check undo
 			final int size = moves.size();
 			if (index < size) {
 				history.subList(index + 1, history.size()).clear();
 				moves.subList(index, size).clear();
 			}
 			
+			// XXX: this is where I have to break this play down
+			// what state can we maintain to make this re-entrant?
+			// 
 			play(i);
+			
 			moves.add(i);
 			++index;
 			who = next();
 			if (listener != null)
 				listener.onNext();
-			snap();
+			snapshot();
 		} else 
 			throw new IllegalMove();
 	}
@@ -102,7 +111,7 @@ public abstract class Game {
 	/**
 	 * Take a snapshot of the current game position
 	 */
-	void snap() {
+	void snapshot() {
 		history.add(new Position(pits.clone(), stores.clone(), who));
 	}
 
@@ -187,11 +196,16 @@ public abstract class Game {
 	
 	abstract int sow(int from, int seeds);
 	abstract int pos(int n);
+	public abstract boolean update();
 	
-	void play(int i) {
-		i = sow(i, scoop(i));
-		if (pit(i) > 1)
-			play(i);
+	
+	void play(final int i) {
+		// break this down to a scoop event
+		// that sets a play flag
+		// and allow update to sow one seed at a time
+		final int j = sow(i, scoop(i));
+		if (pit(j) > 1)
+			play(j);
 	}
 	
 	private void restore(final int index) {
