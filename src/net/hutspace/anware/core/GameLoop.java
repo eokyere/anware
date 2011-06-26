@@ -1,15 +1,16 @@
 package net.hutspace.anware.core;
 
 import net.hutspace.anware.Board;
-import net.hutspace.anware.GameActivity;
-import android.graphics.Canvas;
+import net.hutspace.anware.ai.AI;
+import net.hutspace.anware.ai.MiniMax;
 import android.util.Log;
 
 public class GameLoop extends Thread {
 	private static final String TAG = "GameLoop";
-	// flag to hold game state
 	private boolean running;
 	private Game game;
+	private static AI ai = new MiniMax();
+
 	private Board board;
 
 	public GameLoop(Board board, Game game) {
@@ -23,26 +24,34 @@ public class GameLoop extends Thread {
 	}
 	
 	@Override
+	public void start() {
+		setRunning(true);
+		super.start();
+	}
+	
+	@Override
 	public void run() {
-		Canvas canvas;
-		long ticks = 0L;
 		Log.d(TAG, "Game loop started");
 		while (running) {
+			Log.d(TAG, String.format("running - turn: %s", game.turn()));
+
+			if (game.aiToPlay() && game.currentMove == null) {
+				if (game.getWinner() == -1)
+				{
+					Log.d("Board", "AI thinking ...");
+					board.move(ai.move(game));
+				}
+			}
 			
-			canvas = null;
-			++ticks;
-			// update game state
-			if (game.update())
-				// render state to the screen
-				board.invalidate();
 			
+//			if (game.update())
+//				board.invalidate();
+			game.update();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		Log.d(TAG, "Game loop executed " + ticks + " times");
-
 	}
 }

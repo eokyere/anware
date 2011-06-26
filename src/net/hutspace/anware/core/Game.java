@@ -13,10 +13,11 @@ public abstract class Game {
 	int[] pits;
 	int[] stores;
 	int[] owner;
+	
 	int who;
+	Integer currentMove = null;
 	int hand;
-
-	boolean moving;
+	int spot;
 	
 	GameListener listener;
 	
@@ -55,8 +56,9 @@ public abstract class Game {
 		this.pits = pits;
 		this.stores = stores;
 		index = 0;
+		
 		hand = 0;
-		moving = false;
+		
 		moves = new ArrayList<Integer>();
 		history = new ArrayList<Position>();
 		
@@ -94,24 +96,35 @@ public abstract class Game {
 			}
 			
 			// XXX: this is where I have to break this play down
-			// what state can we maintain to make this re-entrant?
-			// 
-			play(i);
-			
-			moves.add(i);
-			++index;
-			who = next();
-			if (listener != null)
-				listener.onNext();
-			snapshot();
+			play2(i);
+			currentMove = i;
 		} else 
 			throw new IllegalMove();
 	}
 
+	public final void testMove(int i) throws IllegalMove {
+		if (valid(i)){
+			play(i);
+		} else 
+			throw new IllegalMove();
+	}
+	
+
+	void updateMoves() {
+		moves.add(currentMove);
+		++index;
+		currentMove = null;
+		who = next();
+		if (listener != null)
+			listener.onNext();
+		updateHistory();
+	}
+
 	/**
-	 * Take a snapshot of the current game position
+	 * Take a snapshot of the current game position and add to the
+	 * game history
 	 */
-	void snapshot() {
+	void updateHistory() {
 		history.add(new Position(pits.clone(), stores.clone(), who));
 	}
 
@@ -143,9 +156,9 @@ public abstract class Game {
 	}
 
 	/**
-	 * Whose turn is it?
+	 * Whose turn is it currently?
 	 * 
-	 * @return Returns the index of the player whose turn it is.
+	 * @return Returns the index of the player whose turn it is currently.
 	 */
 	public int turn() {
 		return who;
@@ -208,6 +221,11 @@ public abstract class Game {
 			play(j);
 	}
 	
+	void play2(final int i) {
+		hand = scoop(i);
+		spot = pos(hand > 0 ? i + 1 : i);
+	}
+	
 	private void restore(final int index) {
 		Position p = history.get(index);
 		pits = p.pits.clone();
@@ -249,5 +267,10 @@ public abstract class Game {
 
 	public int[] getOwners() {
 		return owner;
+	}
+
+
+	public boolean aiToPlay() {
+		return turn() == 1;
 	}
 }

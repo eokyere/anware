@@ -52,6 +52,7 @@ public class GameActivity extends Activity {
 		if (startingPlayer == 2) {
 			startingPlayer = (int) (Math.floor(Math.random() * 10000)) % 2; 
 		}
+		
 		game = new NamNamGame(startingPlayer);
 		
 //		if (null == savedInstanceState) {

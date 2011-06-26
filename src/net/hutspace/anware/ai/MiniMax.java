@@ -4,10 +4,11 @@ import java.util.List;
 
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.IllegalMove;
+import android.util.Log;
 
 public class MiniMax extends AI {
 	@Override
-	public int move(Game game) {
+	public int move(final Game game) {
 		int pit = -1;
 		final List<Integer> pits = game.validMoves();
 
@@ -18,18 +19,19 @@ public class MiniMax extends AI {
 			for (int p : pits) {
 				final Game g = game.clone();
 				try {
-					g.move(p);
+					g.testMove(p);
 					final int val = minimax(g, 3);
 					if (val > score) {
 						score = val;
 						pit = p;
 					}
 				} catch (IllegalMove e) {
-					throw new RuntimeException();
+					//throw new RuntimeException();
+					Log.e("MiniMax", String.format("Illegal Move tried: [%s]", p));
 				}
 			}
 		}
-		
+		Log.d("MiniMax", String.format("Best AI move pit is: [%s]", pit));
 		return pit;
 	}
 
@@ -46,7 +48,7 @@ public class MiniMax extends AI {
 		for (int i = 0; i < moves.size(); ++i) {
 			final Game g = game.clone();
 			try {
-				g.move(moves.get(i));
+				g.testMove(moves.get(i));
 				final int result = minimax(g, depth - 1);
 				score = max ? Math.max(score, result) : Math.min(score, result);
 			} catch (IllegalMove e) {

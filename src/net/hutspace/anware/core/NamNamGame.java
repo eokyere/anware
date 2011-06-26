@@ -20,7 +20,12 @@ public class NamNamGame extends Game {
 
 	@Override
 	public boolean valid(int i) {
-		return who == owner[i] && pit(i) >= 1;
+		try {
+			Log.d("NamNam", String.format("Check validity of: [%s]", i));
+			return who == owner[i] && pit(i) >= 1;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -35,11 +40,24 @@ public class NamNamGame extends Game {
 	}
 
 	public boolean update() {
-		return false;
-	}
-	
-	public void sow(int emptied, int seeds, boolean wait) {
+		if (hand >= 1) {
+			hand--;
+			drop(spot, hand);
+			Log.d("NamNam", String.format("dropped! [%s]", hand));
+			if (hand == 0) {
+				if (pit(spot) > 1)
+					hand = scoop(spot);
+				else {
+					Log.d("NamNam", "Hand is empty; updating moves");
+					updateMoves();
+				}
+
+			}
+			spot = pos(++spot);
+			return true;
+		}
 		
+		return false;
 	}
 	
 	/**
@@ -50,28 +68,37 @@ public class NamNamGame extends Game {
 	 * @param seeds the seeds to sow
 	 */
 	@Override
-	int sow(int emptied, int seeds) {
+	int sow(final int emptied, int seeds) {
 		Log.d("NamNam", String.format("sow(%s, %s)", emptied, seeds));
 		int x = emptied;
 		
-		for (int i = 0; i < seeds; ++i) {
-			x = pos(1 + i + emptied);
-			pits[x] += 1;
-			if (listener != null)
-				listener.onSow(x);
-			checkHarvest(seeds, x, i);
+		while (seeds >= 1) {
+			x = pos(x + 1);
+			seeds--;
+			drop(x, seeds);
 		}
 		
 		return x;
+	}
+
+	private void drop(final int pit, final int hand) {
+		pits[pit] += 1;
+		if (listener != null)
+			listener.onSow(pit);
+		checkHarvest(pit, hand == 0 ? turn(): owner[pit]);
 	}
 	
 	int pos(int n) {
 		return n % 12;
 	}
 
-	private void checkHarvest(int seeds, int x, int i) {
+	/**
+	 * 
+	 * @param x the pit to check if we should harvest
+	 * @param i 
+	 */
+	private void checkHarvest(int x, int who) {
 		if (pits[x] == 4) {
-			int who = i == seeds - 1 ? turn(): owner[x];
 			stores[who] += scoop(x);
 			if (listener != null)
 				listener.onHarvest(x, who);
@@ -94,8 +121,7 @@ public class NamNamGame extends Game {
 		setPits(4);
 		for (int i = 0; i < 2; ++i)
 			stores[i] = 0;
-		
-		snapshot();
+		updateHistory();
 	}
 	
 	private void setPits(final int val) {

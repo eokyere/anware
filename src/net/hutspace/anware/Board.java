@@ -1,7 +1,5 @@
 package net.hutspace.anware;
 
-import net.hutspace.anware.ai.AI;
-import net.hutspace.anware.ai.MiniMax;
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.GameListener;
 import net.hutspace.anware.core.IllegalMove;
@@ -26,7 +24,6 @@ public class Board extends RelativeLayout implements GameListener {
 
 	private GameActivity ctx;
 	private Game game;
-	private static AI ai = new MiniMax();
 	
 	public Board(Context context) {
 		super(context);
@@ -71,11 +68,6 @@ public class Board extends RelativeLayout implements GameListener {
 							ctx.update(game);
 						}
 					});
-					final int aiPlayer = 1;
-					if (Prefs.againstComputer(getContext())) {
-						if (game.getWinner() == -1 && game.turn() == aiPlayer)
-							move(ai.move(game));
-					}
 				} catch (IllegalMove e) {
 					post(new Runnable() {
 						public void run() {
@@ -89,7 +81,7 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	@Override
 	public void onScoop(final int id, int seeds) {
-		Log.d(TAG, String.format("scoop(%s, %s)", id, seeds));
+		Log.d(TAG, String.format("onScoop(%s, %s)", id, seeds));
 		post(new Runnable() {
 			public void run() {
 				final int pitId = id + 1;
@@ -100,7 +92,7 @@ public class Board extends RelativeLayout implements GameListener {
 
 	@Override
 	public void onSow(final int id) {
-		Log.d(TAG, String.format("sow(%s)", id));
+		Log.d(TAG, String.format("onSow(%s)", id));
 		post(new Runnable() {
 			public void run() {
 				final int pitId = id + 1;

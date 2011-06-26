@@ -2,3 +2,5 @@
 .classpath
 *.class
 TEST-*
+tmp/
+temp/
