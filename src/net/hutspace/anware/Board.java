@@ -63,11 +63,7 @@ public class Board extends RelativeLayout implements GameListener {
 			public void run() {
 				try {
 					game.move(i);
-					post(new Runnable() {
-						public void run() {
-							ctx.update(game);
-						}
-					});
+					updateContext();
 				} catch (IllegalMove e) {
 					post(new Runnable() {
 						public void run() {
@@ -76,9 +72,18 @@ public class Board extends RelativeLayout implements GameListener {
 					});
 				}
 			}
+
 		}).start();
 	}
 	
+	private void updateContext() {
+		post(new Runnable() {
+			public void run() {
+				ctx.update(game);
+			}
+		});
+	}
+
 	@Override
 	public void onScoop(final int id, int seeds) {
 		Log.d(TAG, String.format("onScoop(%s, %s)", id, seeds));
@@ -115,6 +120,7 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	@Override
 	public void onNext() {
+		updateContext();
 	}
 	
 	@Override
