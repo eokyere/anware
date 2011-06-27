@@ -12,11 +12,13 @@ public class GameLoop extends Thread {
 	private static AI ai = new MiniMax();
 
 	private Board board;
+	private int speed;
 
 	public GameLoop(Board board, Game game) {
 		super();
 		this.game = game;
 		this.board = board;
+		speed = board.getSpeed();
 	}
 
 	public void setRunning(boolean running) {
@@ -31,7 +33,6 @@ public class GameLoop extends Thread {
 	
 	@Override
 	public void run() {
-		Log.d(TAG, "Game loop started");
 		while (running) {
 			Log.d(TAG, String.format("running - turn: %s", game.turn()));
 
@@ -43,12 +44,9 @@ public class GameLoop extends Thread {
 				}
 			}
 			
-			
-//			if (game.update())
-//				board.invalidate();
 			game.update();
 			try {
-				Thread.sleep(500);
+				Thread.sleep(speed);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

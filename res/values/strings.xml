@@ -15,11 +15,31 @@ Anware (Android Oware) is blah blah blah blah
     <string name="settingsLabel">Settings ...</string>
     <string name="settingsTitle">Anware settings</string>
     <string name="settingsShortcutKey">s</string>
-    <string name="computerPrefTitle">1 Player</string>
+    
+    <string name="computerPrefTitle">I</string>
     <string name="computerPrefSummary">Allows you to play against Android</string>
     
     <string name="player1">Player 1</string>
     <string name="player2">Player 2</string>
     <string name="random">Random</string>
     <string name="selectStartingPlayer">Select the starting player</string>
+    
+    <string name="chooseStartingPlayerAtStart">Choose who goes first</string>
+    <string name="chooseStartingPlayerAtStartSummary">
+    	Presents a dialog for you choose who goes first at the beginning of every new game
+    </string>
+    
+    <!-- Animation speed values -->
+    <string name="slow">Slow</string>
+    <string name="normal">Normal</string>
+    <string name="fast">Fast</string>
+    
+    <!-- Computer difficulty level -->
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
+    
+    <string name="k0">0</string>
+    <string name="k1">1</string>
+    <string name="k2">2</string>
 </resources>

@@ -5,4 +5,28 @@
 		<item>@string/player2</item>
 		<item>@string/random</item>
 	</array>
+	
+	<array name="difficulty">
+		<item>@string/beginner</item>
+		<item>@string/intermediate</item>
+		<item>@string/advanced</item>
+	</array>
+	
+	<array name="difficultyValues">
+		<item>@string/k0</item>
+		<item>@string/k1</item>
+		<item>@string/k2</item>
+	</array>
+	
+	<array name="animationSpeed">
+		<item>@string/slow</item>
+		<item>@string/normal</item>
+		<item>@string/fast</item>
+	</array>
+	
+	<array name="animationSpeedValues">
+		<item>@string/k0</item>
+		<item>@string/k1</item>
+		<item>@string/k2</item>
+	</array>	
 </resources>

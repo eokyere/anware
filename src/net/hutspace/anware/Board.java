@@ -76,14 +76,10 @@ public class Board extends RelativeLayout implements GameListener {
 		}).start();
 	}
 	
-	private void updateContext() {
-		post(new Runnable() {
-			public void run() {
-				ctx.update(game);
-			}
-		});
+	public int getSpeed() {
+		return Prefs.animationSpeed(getContext());
 	}
-
+	
 	@Override
 	public void onScoop(final int id, int seeds) {
 		Log.d(TAG, String.format("onScoop(%s, %s)", id, seeds));
@@ -152,6 +148,14 @@ public class Board extends RelativeLayout implements GameListener {
 			findViewById(storeId).invalidate();
 		}
 		ctx.update(game);
+	}
+
+	private void updateContext() {
+		post(new Runnable() {
+			public void run() {
+				ctx.update(game);
+			}
+		});
 	}
 
 	private void init(Context context) {
