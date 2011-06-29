@@ -17,9 +17,9 @@ public class Anware extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        findViewById(R.id.about_button).setOnClickListener(this);
-        findViewById(R.id.exit_button).setOnClickListener(this);
-        findViewById(R.id.new_game_button).setOnClickListener(this);
+//        findViewById(R.id.about_button).setOnClickListener(this);
+//        findViewById(R.id.exit_button).setOnClickListener(this);
+//        findViewById(R.id.new_game_button).setOnClickListener(this);
     }
 
 	@Override

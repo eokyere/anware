@@ -79,7 +79,7 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 	
 	public int getSpeed() {
-		return Prefs.animationSpeed(getContext());
+		return Prefs.sleepInterval(getContext());
 	}
 	
 	public int getDifficulty() {

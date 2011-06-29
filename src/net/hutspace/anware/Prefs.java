@@ -17,7 +17,7 @@ public class Prefs extends PreferenceActivity {
 		return prefs(context).getBoolean("againstComputer", false);
 	}
 
-	public static int animationSpeed(Context context) {
+	public static int sleepInterval(Context context) {
 		return 1000 / fps(Integer.parseInt(prefs(context).getString(
 				"animationSpeed", "1")));
 	}
@@ -38,11 +38,11 @@ public class Prefs extends PreferenceActivity {
 	private static int fps(int key) {
 		switch (key) {
 		case 0:
-			return 10;
+			return 1;
 		case 2:
-			return 100;
+			return 10;
 		default:
-			return 50;
+			return 5;
 		}
 	}
 }

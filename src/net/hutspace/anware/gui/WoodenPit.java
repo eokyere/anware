@@ -28,7 +28,7 @@ public class WoodenPit extends Pit {
 					Color.rgb(0x55, 0x00, 0x77) },
 		new int[] { Color.rgb(0x77, 0xcc, 0x66),
 					Color.rgb(0x22, 0x77, 0x00) } };
-	final static int PEBBLE_SZ = 8;
+	final static int PEBBLE_SZ = 6;
 	final static int K = 1;
 	
 	public WoodenPit(Context context) {

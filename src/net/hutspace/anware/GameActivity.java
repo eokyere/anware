@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -26,34 +28,31 @@ public class GameActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		applyNoTitleFullScreen();		
 		setContentView(R.layout.board);	
-		
+
 		board = (Board) findViewById(R.id.game_board);
 		txtInfo = (TextView) findViewById(R.id.txt_turn);
-		Button btnUndo = (Button) findViewById(R.id.btn_undo);
-		Button btnRedo = (Button) findViewById(R.id.btn_redo);
 		
+//		Button btnUndo = (Button) findViewById(R.id.btn_undo);
+//		Button btnRedo = (Button) findViewById(R.id.btn_redo);
+//		
+//		
+//		btnUndo.setOnClickListener(new OnClickListener() {			
+//			@Override
+//			public void onClick(View v) {
+//				game.undo();
+//			}
+//		});
+//		
+//		btnRedo.setOnClickListener(new OnClickListener() {			
+//			@Override
+//			public void onClick(View v) {
+//				game.redo();
+//			}
+//		});
 		
-		btnUndo.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				game.undo();
-			}
-		});
-		
-		btnRedo.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				game.redo();
-			}
-		});
-		
-		int startingPlayer = getIntent().getIntExtra(STARTING_PLAYER_KEY, 0);
-		if (startingPlayer == 2) {
-			startingPlayer = (int) (Math.floor(Math.random() * 10000)) % 2; 
-		}
-		
-		game = new NamNamGame(startingPlayer);
+		game = new NamNamGame(getStartingPlayer());
 		
 //		if (null == savedInstanceState) {
 //		} else {
@@ -76,6 +75,21 @@ public class GameActivity extends Activity {
 		loop = new GameLoop(board, game);
 		loop.setRunning(true);
 		loop.start();
+	}
+
+	private void applyNoTitleFullScreen() {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(
+				WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
+
+	private int getStartingPlayer() {
+		final int p = getIntent().getIntExtra(
+				STARTING_PLAYER_KEY, Game.PLAYER_ONE);
+		if (!(p == Game.PLAYER_ONE || p == Game.PLAYER_TWO))
+			return (int) (Math.floor(Math.random() * 10000)) % 2; 
+		return p;
 	}
 
 	public void update(Game game) {
