@@ -15,7 +15,7 @@ public class Pit extends View {
 	private static final String TAG = "Pit";
 	static Paint paint = new Paint();
 	public static final float W = 54.0f;
-	public static final float H = W;
+	public static final float H = 90.0f;
 	protected Board board;
 	
 	public Pit(Context context) {
@@ -40,9 +40,8 @@ public class Pit extends View {
 		final float cx = getWidth() / 2;
 		final float cy = getHeight() / 2;
 		final float r = Math.min(cx, cy) - 2;
+		canvas.drawText("" + seeds(), cx, 10 , paint);
 		canvas.drawCircle(cx, cy, r, paint);
-		canvas.drawText("" + seeds(), cx, 
-						id <= 5 ? getHeight() + 2 : 1 , paint);
 	}
 	
 	protected int seeds() {
