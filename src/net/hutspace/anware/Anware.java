@@ -80,7 +80,11 @@ public class Anware extends Activity {
 	}
 
 	public void update(Game game) {
-		setInfo(gameInfo(game));
+		update(gameInfo(game));
+	}
+
+	public void update(final String info) {
+		setInfo(info);
 	}
 
 	private String gameInfo(Game game) {
