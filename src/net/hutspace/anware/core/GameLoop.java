@@ -12,13 +12,13 @@ public class GameLoop extends Thread {
 	private static AI ai = new MiniMax();
 
 	private Board board;
-	private int speed;
+	private int interval;
 
 	public GameLoop(Board board, Game game) {
 		super();
 		this.game = game;
 		this.board = board;
-		speed = board.getSpeed();
+		interval = board.getSpeed();
 	}
 
 	public void setRunning(boolean running) {
@@ -36,8 +36,9 @@ public class GameLoop extends Thread {
 		while (running) {
 			Log.d(TAG, String.format("running - turn: %s", game.turn()));
 
-			if (game.aiToPlay() && game.currentMove == null) {
-				if (game.getWinner() == -1)
+			if (board.isPlayingAgaistComputer() && game.aiToPlay() && 
+				game.currentMove == null) {
+				if (game.getWinner() == Game.NO_WINNER)
 				{
 					Log.d("Board", "AI thinking ...");
 					board.move(ai.move(game));
@@ -46,7 +47,7 @@ public class GameLoop extends Thread {
 			
 			game.update();
 			try {
-				Thread.sleep(speed);
+				Thread.sleep(interval);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -12,26 +12,37 @@ public class Prefs extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 	}
-	
-//	public static boolean againstComputer(Context context) {
-//		return PreferenceManager.getDefaultSharedPreferences(context)
-//			.getBoolean("computer", false);
-//	}
-	
+
+	public static boolean againstComputer(Context context) {
+		return prefs(context).getBoolean("againstComputer", false);
+	}
+
 	public static int animationSpeed(Context context) {
-		final SharedPreferences prefs = PreferenceManager.
-			getDefaultSharedPreferences(context);
-		return 1000/fps(Integer.parseInt(prefs.getString("animationSpeed", "1")));
+		return 1000 / fps(Integer.parseInt(prefs(context).getString(
+				"animationSpeed", "1")));
 	}
 	
+	public static boolean chooseStartingPlayer(Context context) {
+		return prefs(context).getBoolean("chooseStartingPlyaerAtStart", false);
+	}
+
+	public static int difficulty(Context context) {
+		return Integer
+				.parseInt(prefs(context).getString("animationSpeed", "1"));
+	}
+
+	private static SharedPreferences prefs(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context);
+	}
+
 	private static int fps(int key) {
 		switch (key) {
-			case 0:
-				return 10;
-			case 2:
-				return 100;
-			default:
-				return 50;
+		case 0:
+			return 10;
+		case 2:
+			return 100;
+		default:
+			return 50;
 		}
 	}
 }

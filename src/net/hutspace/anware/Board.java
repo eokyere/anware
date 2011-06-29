@@ -46,6 +46,8 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	public void setGame(Game g) {
 		game = g;
+		if (isPlayingAgaistComputer())
+			game.setDifficulty(getDifficulty());
 		game.setListener(this);
 		draw();
 	}
@@ -78,6 +80,18 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	public int getSpeed() {
 		return Prefs.animationSpeed(getContext());
+	}
+	
+	public int getDifficulty() {
+		return Prefs.difficulty(getContext());
+	}
+	
+	public boolean isPlayingAgaistComputer() {
+		return Prefs.againstComputer(getContext());
+	}
+	
+	public boolean chooseStartingPlayer() {
+		return Prefs.chooseStartingPlayer(getContext());
 	}
 	
 	@Override

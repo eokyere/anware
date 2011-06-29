@@ -6,7 +6,7 @@ import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.IllegalMove;
 import android.util.Log;
 
-public class MiniMax extends AI {
+public class MiniMax implements AI {
 	@Override
 	public int move(final Game game) {
 		int pit = -1;
@@ -16,11 +16,13 @@ public class MiniMax extends AI {
 			final boolean max = isMax(game);
 			int score = max ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 
+			final int depth = game.getDifficulty();
+
 			for (int p : pits) {
 				final Game g = game.clone();
 				try {
 					g.testMove(p);
-					final int val = minimax(g, 3);
+					final int val = minimax(g, depth);
 					if (val > score) {
 						score = val;
 						pit = p;
@@ -71,7 +73,7 @@ public class MiniMax extends AI {
 	}
 	
 	private boolean leaf(Game game) {
-		return game.getWinner() != -1;
+		return game.getWinner() != Game.NO_WINNER;
 	}
 	
 	private boolean isMax(Game game) {

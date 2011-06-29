@@ -9,6 +9,8 @@ import android.util.Log;
 public abstract class Game {
 	public static final int PLAYER_ONE = 0;
 	public static final int PLAYER_TWO = 1;
+	public static final int DRAW = 2;
+	public static final int NO_WINNER = -1;
 	
 	int[] pits;
 	int[] stores;
@@ -24,6 +26,7 @@ public abstract class Game {
 	private List<Position> history;
 	private List<Integer> moves;
 	private int index;
+	protected int difficulty;
 	
 	private static class Position {
 		int[] pits;
@@ -236,8 +239,13 @@ public abstract class Game {
 
 	public int getWinner() {
 		if (totalSeeds() == stores[PLAYER_ONE] + stores[PLAYER_TWO])
-			return stores[PLAYER_ONE] > stores[PLAYER_TWO] ? PLAYER_ONE : PLAYER_TWO;
-		return -1;
+			if(stores[PLAYER_ONE] == stores[PLAYER_TWO])
+				return DRAW;
+			else if (stores[PLAYER_ONE] > stores[PLAYER_TWO])
+				return PLAYER_ONE; 
+			else 
+				return PLAYER_TWO;
+		return NO_WINNER;
 	}
 
 
@@ -272,5 +280,14 @@ public abstract class Game {
 
 	public boolean aiToPlay() {
 		return turn() == 1;
+	}
+
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
 	}
 }

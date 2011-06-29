@@ -80,16 +80,20 @@ public class GameActivity extends Activity {
 
 	public void update(Game game) {
 		final int pId = game.getWinner();
-		if (pId != -1) {
-			setInfo(String.format("%s has won!!", playerName(pId)));
-			return;
+		if (pId != Game.NO_WINNER) {
+			String info;
+			if (Game.DRAW == pId)
+				info = "It is a draw!";
+			else
+				info = String.format("%s has won!!", playerName(pId));
+			setInfo(info);
+		} else {
+			setInfo(String.format("%s to play", playerName(game.turn())));
 		}
-		
-		setInfo(String.format("%s to play", playerName(game.turn())));
 	}
 
 	private String playerName(final int pId) {
-		return String.format("Player %s", pId == 0 ? 1 : 2);
+		return String.format("Player %s", pId == Game.PLAYER_ONE ? 1 : 2);
 	}
 	
 	

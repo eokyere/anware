@@ -28,8 +28,9 @@ public class Anware extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.new_game_button:
 			final Context context = this;
-			new AlertDialog.Builder(this).setTitle(R.string.new_game_label)
-			.setItems(R.array.startingPlayer, 
+			new AlertDialog.Builder(this).
+				setTitle(R.string.new_game_label).
+				setItems(R.array.startingPlayer, 
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, 

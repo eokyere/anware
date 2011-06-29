@@ -91,13 +91,14 @@ public class NamNamGame extends Game {
 
 	@Override
 	public Game clone() {
-		final Game g = new NamNamGame();
-		g.pits = pits.clone();
-		g.stores = stores.clone();
-		g.who = who;
-		g.owner = owner.clone();
+		final Game game = new NamNamGame();
+		game.pits = pits.clone();
+		game.stores = stores.clone();
+		game.who = who;
+		game.owner = owner.clone();
+		game.difficulty = difficulty;
 		
-		return g;
+		return game;
 	}
 
 	public boolean update() {

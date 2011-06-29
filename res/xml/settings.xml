@@ -15,16 +15,16 @@
         android:entryValues="@array/animationSpeedValues"/>			
 	</PreferenceCategory>
 	<PreferenceCategory 
-		android:title="Player 1 options"
-		android:summary="Set options for player one">
-		<CheckBoxPreference android:key="aiPlayer0"
-			android:title="@string/computerPrefTitle"
-			android:summary="@string/computerPrefSummary"
+		android:title="Player options"
+		android:summary="">
+		<CheckBoxPreference android:key="againstComputer"
+			android:title="@string/againstComputerTitle"
+			android:summary="@string/againstComputerSummary"
 			android:defaultValue="false"/>
 		<ListPreference
-        android:key="difficultyPlayer0"
+        android:key="computerDifficulty"
         android:title="Computer Difficulty"
-        android:dependency="aiPlayer0"
+        android:dependency="againstComputer"
         android:dialogTitle="Computer Difficulty"
         android:entries="@array/difficulty"
         android:entryValues="@array/difficultyValues"/>			
