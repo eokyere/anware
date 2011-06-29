@@ -22,7 +22,7 @@ public class Board extends RelativeLayout implements GameListener {
 	static final int rightOf = RelativeLayout.RIGHT_OF;
 	static final int above = RelativeLayout.ABOVE;
 
-	private GameActivity ctx;
+	private Anware ctx;
 	private Game game;
 	
 	public Board(Context context) {
@@ -174,7 +174,7 @@ public class Board extends RelativeLayout implements GameListener {
 
 	private void init(Context context) {
 		Log.d(TAG, "init()");
-		ctx = (GameActivity) context;
+		ctx = (Anware) context;
 		setGravity(Gravity.CENTER);
 	}
 

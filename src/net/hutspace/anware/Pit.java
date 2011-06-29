@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,6 +15,7 @@ public class Pit extends View {
 	private static final String TAG = "Pit";
 	static Paint paint = new Paint();
 	public static final float W = 54.0f;
+	public static final float H = W;
 	protected Board board;
 	
 	public Pit(Context context) {
@@ -33,11 +35,14 @@ public class Pit extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		Log.d(TAG, String.format("onDraw(%s)", getId()));
+		final int id = getId();
+		Log.d(TAG, String.format("onDraw(id=%s)", id));
 		final float cx = getWidth() / 2;
-		final float r = cx - 2;
-		canvas.drawCircle(cx, cx, r, paint);
-		canvas.drawText("" + seeds(), cx, cx, paint);
+		final float cy = getHeight() / 2;
+		final float r = Math.min(cx, cy) - 2;
+		canvas.drawCircle(cx, cy, r, paint);
+		canvas.drawText("" + seeds(), cx, 
+						id <= 5 ? getHeight() + 2 : 1 , paint);
 	}
 	
 	protected int seeds() {
@@ -61,9 +66,12 @@ public class Pit extends View {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
+		setMeasuredDimension((int) dpi(W), (int) dpi(H));
+	}
+
+	private float dpi(final float val) {
 		final float dpi = getResources().getDisplayMetrics().density;
-		final int x = (int)(W * dpi);
-		setMeasuredDimension(x, x);
+		return val / dpi;
 	}
 	
 	private void init(Context context) {

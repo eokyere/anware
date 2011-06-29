@@ -34,7 +34,7 @@ public class GameLoop extends Thread {
 	@Override
 	public void run() {
 		while (running) {
-			Log.d(TAG, String.format("running - turn: %s", game.turn()));
+//			Log.d(TAG, String.format("running - turn: %s", game.turn()));
 
 			if (board.isPlayingAgaistComputer() && game.aiToPlay() && 
 				game.currentMove == null) {
