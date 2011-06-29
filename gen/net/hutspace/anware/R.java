@@ -13,6 +13,10 @@ public final class R {
         public static final int shake=0x7f040001;
     }
     public static final class array {
+        public static final int animationSpeed=0x7f060003;
+        public static final int animationSpeedValues=0x7f060004;
+        public static final int difficulty=0x7f060001;
+        public static final int difficultyValues=0x7f060002;
         public static final int startingPlayer=0x7f060000;
     }
     public static final class attr {
@@ -60,21 +64,36 @@ public final class R {
         public static final int about_label=0x7f080003;
         public static final int about_text=0x7f080006;
         public static final int about_title=0x7f080005;
+        public static final int advanced=0x7f080019;
+        public static final int againstComputerSummary=0x7f080012;
+        public static final int againstComputerTitle=0x7f080011;
         public static final int app_name=0x7f080000;
+        /**  Computer difficulty level 
+         */
+        public static final int beginner=0x7f080017;
         public static final int board_title=0x7f080008;
-        public static final int computerPrefSummary=0x7f08000d;
-        public static final int computerPrefTitle=0x7f08000c;
+        public static final int chooseStartingPlayerAtStart=0x7f080010;
+        public static final int chooseStartingPlayerAtStartSummary=0x7f080013;
         public static final int exit_label=0x7f080004;
+        public static final int fast=0x7f080016;
         public static final int game_title=0x7f080007;
+        public static final int intermediate=0x7f080018;
+        public static final int k0=0x7f08001a;
+        public static final int k1=0x7f08001b;
+        public static final int k2=0x7f08001c;
         public static final int main_title=0x7f080001;
         public static final int new_game_label=0x7f080002;
-        public static final int player1=0x7f08000e;
-        public static final int player2=0x7f08000f;
-        public static final int random=0x7f080010;
-        public static final int selectStartingPlayer=0x7f080011;
+        public static final int normal=0x7f080015;
+        public static final int player1=0x7f08000c;
+        public static final int player2=0x7f08000d;
+        public static final int random=0x7f08000e;
+        public static final int selectStartingPlayer=0x7f08000f;
         public static final int settingsLabel=0x7f080009;
         public static final int settingsShortcutKey=0x7f08000b;
         public static final int settingsTitle=0x7f08000a;
+        /**  Animation speed values 
+         */
+        public static final int slow=0x7f080014;
     }
     public static final class xml {
         public static final int settings=0x7f050000;

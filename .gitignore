@@ -5,3 +5,5 @@ TEST-*
 *.apk
 *.dex
 *.ap_
+tmp/
+temp/

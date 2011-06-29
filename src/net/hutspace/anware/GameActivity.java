@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.hutspace.anware.core.Game;
+import net.hutspace.anware.core.GameLoop;
 import net.hutspace.anware.core.NamNamGame;
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ public class GameActivity extends Activity {
 	private Game game;
 	private TextView txtInfo;
 	private List<View> pits;
+
+	private GameLoop loop;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,20 +73,27 @@ public class GameActivity extends Activity {
 			pits.add(findViewById(i));
 		
 		update(game);
+		loop = new GameLoop(board, game);
+		loop.setRunning(true);
+		loop.start();
 	}
 
 	public void update(Game game) {
 		final int pId = game.getWinner();
-		if (pId != -1) {
-			setInfo(String.format("%s has won!!", playerName(pId)));
-			return;
+		if (pId != Game.NO_WINNER) {
+			String info;
+			if (Game.DRAW == pId)
+				info = "It is a draw!";
+			else
+				info = String.format("%s has won!!", playerName(pId));
+			setInfo(info);
+		} else {
+			setInfo(String.format("%s to play", playerName(game.turn())));
 		}
-		
-		setInfo(String.format("%s to play", playerName(game.turn())));
 	}
 
 	private String playerName(final int pId) {
-		return String.format("Player %s", pId == 0 ? 1 : 2);
+		return String.format("Player %s", pId == Game.PLAYER_ONE ? 1 : 2);
 	}
 	
 	

@@ -4,10 +4,11 @@ import java.util.List;
 
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.IllegalMove;
+import android.util.Log;
 
-public class MiniMax extends AI {
+public class MiniMax implements AI {
 	@Override
-	public int move(Game game) {
+	public int move(final Game game) {
 		int pit = -1;
 		final List<Integer> pits = game.validMoves();
 
@@ -15,21 +16,24 @@ public class MiniMax extends AI {
 			final boolean max = isMax(game);
 			int score = max ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 
+			final int depth = game.getDifficulty();
+
 			for (int p : pits) {
 				final Game g = game.clone();
 				try {
-					g.move(p);
-					final int val = minimax(g, 1);
+					g.testMove(p);
+					final int val = minimax(g, depth);
 					if (val > score) {
 						score = val;
 						pit = p;
 					}
 				} catch (IllegalMove e) {
-					throw new RuntimeException();
+					//throw new RuntimeException();
+					Log.e("MiniMax", String.format("Illegal Move tried: [%s]", p));
 				}
 			}
 		}
-		
+		Log.d("MiniMax", String.format("Best AI move pit is: [%s]", pit));
 		return pit;
 	}
 
@@ -46,7 +50,7 @@ public class MiniMax extends AI {
 		for (int i = 0; i < moves.size(); ++i) {
 			final Game g = game.clone();
 			try {
-				g.move(moves.get(i));
+				g.testMove(moves.get(i));
 				final int result = minimax(g, depth - 1);
 				score = max ? Math.max(score, result) : Math.min(score, result);
 			} catch (IllegalMove e) {
@@ -64,12 +68,12 @@ public class MiniMax extends AI {
 		for (int i = 6; i < 12; ++i)
 			seeds += game.pit(i);
 
-		return (game.store(Game.PLAYER_TWO) - game.store(Game.PLAYER_ONE)) * 1000 + seeds;
-		
+		return (game.store(Game.PLAYER_TWO) - 
+				game.store(Game.PLAYER_ONE)) * 1000 + seeds;
 	}
 	
 	private boolean leaf(Game game) {
-		return game.getWinner() != -1;
+		return game.getWinner() != Game.NO_WINNER;
 	}
 	
 	private boolean isMax(Game game) {

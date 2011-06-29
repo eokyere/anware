@@ -1,6 +1,5 @@
 package net.hutspace.anware;
 
-import net.hutspace.anware.core.Game;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -29,14 +28,16 @@ public class Anware extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.new_game_button:
 			final Context context = this;
-			new AlertDialog.Builder(this).setTitle(R.string.new_game_label)
-			.setItems(R.array.startingPlayer, 
+			new AlertDialog.Builder(this).
+				setTitle(R.string.new_game_label).
+				setItems(R.array.startingPlayer, 
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							final Intent i = new Intent(context, GameActivity.class);
-							i.putExtra(GameActivity.STARTING_PLAYER_KEY, which);
-							startActivity(i);
+						public void onClick(DialogInterface dialog, 
+								final int which) {
+							final Intent intent = new Intent(context, GameActivity.class);
+							intent.putExtra(GameActivity.STARTING_PLAYER_KEY, which);
+							startActivity(intent);
 						}
 					}).show();			
 			//startActivity(new Intent(this, GameActivity.class));

@@ -9,29 +9,35 @@ import android.util.Log;
 public abstract class Game {
 	public static final int PLAYER_ONE = 0;
 	public static final int PLAYER_TWO = 1;
+	public static final int DRAW = 2;
+	public static final int NO_WINNER = -1;
 	
 	int[] pits;
 	int[] stores;
 	int[] owner;
+	
 	int who;
-
+	Integer currentMove = null;
+	int hand;
+	int spot;
+	
 	GameListener listener;
 	
 	private List<Position> history;
 	private List<Integer> moves;
 	private int index;
-	
+	protected int difficulty;
 	
 	private static class Position {
+		int[] pits;
+		int[] stores;
+		int who;
+
 		public Position(int[] pits, int[] stores, int who) {
 			this.pits = pits;
 			this.stores = stores;
 			this.who = who;
 		}
-		
-		int[] pits;
-		int[] stores;
-		int who;
 	}
 	
 	public void setListener(GameListener listener) {
@@ -53,6 +59,9 @@ public abstract class Game {
 		this.pits = pits;
 		this.stores = stores;
 		index = 0;
+		
+		hand = 0;
+		
 		moves = new ArrayList<Integer>();
 		history = new ArrayList<Position>();
 		
@@ -80,29 +89,45 @@ public abstract class Game {
 	 * 
 	 * @throws IllegalMove 
 	 */
-	public void move(int i) throws IllegalMove {
+	public final void move(int i) throws IllegalMove {
 		if (valid(i)){
+			// check undo
 			final int size = moves.size();
 			if (index < size) {
 				history.subList(index + 1, history.size()).clear();
 				moves.subList(index, size).clear();
 			}
 			
-			play(i);
-			moves.add(i);
-			++index;
-			who = next();
-			if (listener != null)
-				listener.onNext();
-			snap();
+			// XXX: this is where I have to break this play down
+			play2(i);
+			currentMove = i;
 		} else 
 			throw new IllegalMove();
 	}
 
+	public final void testMove(int i) throws IllegalMove {
+		if (valid(i)){
+			play(i);
+		} else 
+			throw new IllegalMove();
+	}
+	
+
+	void updateMoves() {
+		moves.add(currentMove);
+		++index;
+		currentMove = null;
+		who = next();
+		if (listener != null)
+			listener.onNext();
+		updateHistory();
+	}
+
 	/**
-	 * Take a snapshot of the current game position
+	 * Take a snapshot of the current game position and add to the
+	 * game history
 	 */
-	void snap() {
+	void updateHistory() {
 		history.add(new Position(pits.clone(), stores.clone(), who));
 	}
 
@@ -134,9 +159,9 @@ public abstract class Game {
 	}
 
 	/**
-	 * Whose turn is it?
+	 * Whose turn is it currently?
 	 * 
-	 * @return Returns the index of the player whose turn it is.
+	 * @return Returns the index of the player whose turn it is currently.
 	 */
 	public int turn() {
 		return who;
@@ -187,11 +212,21 @@ public abstract class Game {
 	
 	abstract int sow(int from, int seeds);
 	abstract int pos(int n);
+	public abstract boolean update();
 	
-	void play(int i) {
-		i = sow(i, scoop(i));
-		if (pit(i) > 1)
-			play(i);
+	
+	void play(final int i) {
+		// break this down to a scoop event
+		// that sets a play flag
+		// and allow update to sow one seed at a time
+		final int j = sow(i, scoop(i));
+		if (pit(j) > 1)
+			play(j);
+	}
+	
+	void play2(final int i) {
+		hand = scoop(i);
+		spot = pos(hand > 0 ? i + 1 : i);
 	}
 	
 	private void restore(final int index) {
@@ -204,8 +239,13 @@ public abstract class Game {
 
 	public int getWinner() {
 		if (totalSeeds() == stores[PLAYER_ONE] + stores[PLAYER_TWO])
-			return stores[PLAYER_ONE] > stores[PLAYER_TWO] ? PLAYER_ONE : PLAYER_TWO;
-		return -1;
+			if(stores[PLAYER_ONE] == stores[PLAYER_TWO])
+				return DRAW;
+			else if (stores[PLAYER_ONE] > stores[PLAYER_TWO])
+				return PLAYER_ONE; 
+			else 
+				return PLAYER_TWO;
+		return NO_WINNER;
 	}
 
 
@@ -235,5 +275,19 @@ public abstract class Game {
 
 	public int[] getOwners() {
 		return owner;
+	}
+
+
+	public boolean aiToPlay() {
+		return turn() == 1;
+	}
+
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
 	}
 }

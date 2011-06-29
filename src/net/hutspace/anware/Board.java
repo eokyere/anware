@@ -1,7 +1,5 @@
 package net.hutspace.anware;
 
-import net.hutspace.anware.ai.AI;
-import net.hutspace.anware.ai.MiniMax;
 import net.hutspace.anware.core.Game;
 import net.hutspace.anware.core.GameListener;
 import net.hutspace.anware.core.IllegalMove;
@@ -26,7 +24,6 @@ public class Board extends RelativeLayout implements GameListener {
 
 	private GameActivity ctx;
 	private Game game;
-	private static AI ai = new MiniMax();
 	
 	public Board(Context context) {
 		super(context);
@@ -49,6 +46,8 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	public void setGame(Game g) {
 		game = g;
+		if (isPlayingAgaistComputer())
+			game.setDifficulty(getDifficulty());
 		game.setListener(this);
 		draw();
 	}
@@ -66,16 +65,7 @@ public class Board extends RelativeLayout implements GameListener {
 			public void run() {
 				try {
 					game.move(i);
-					post(new Runnable() {
-						public void run() {
-							ctx.update(game);
-						}
-					});
-					final int aiPlayer = 1;
-					if (Prefs.againstComputer(getContext())) {
-						if (game.getWinner() == -1 && game.turn() == aiPlayer)
-							move(ai.move(game));
-					}
+					updateContext();
 				} catch (IllegalMove e) {
 					post(new Runnable() {
 						public void run() {
@@ -84,12 +74,29 @@ public class Board extends RelativeLayout implements GameListener {
 					});
 				}
 			}
+
 		}).start();
+	}
+	
+	public int getSpeed() {
+		return Prefs.animationSpeed(getContext());
+	}
+	
+	public int getDifficulty() {
+		return Prefs.difficulty(getContext());
+	}
+	
+	public boolean isPlayingAgaistComputer() {
+		return Prefs.againstComputer(getContext());
+	}
+	
+	public boolean chooseStartingPlayer() {
+		return Prefs.chooseStartingPlayer(getContext());
 	}
 	
 	@Override
 	public void onScoop(final int id, int seeds) {
-		Log.d(TAG, String.format("scoop(%s, %s)", id, seeds));
+		Log.d(TAG, String.format("onScoop(%s, %s)", id, seeds));
 		post(new Runnable() {
 			public void run() {
 				final int pitId = id + 1;
@@ -100,7 +107,7 @@ public class Board extends RelativeLayout implements GameListener {
 
 	@Override
 	public void onSow(final int id) {
-		Log.d(TAG, String.format("sow(%s)", id));
+		Log.d(TAG, String.format("onSow(%s)", id));
 		post(new Runnable() {
 			public void run() {
 				final int pitId = id + 1;
@@ -123,6 +130,7 @@ public class Board extends RelativeLayout implements GameListener {
 	
 	@Override
 	public void onNext() {
+		updateContext();
 	}
 	
 	@Override
@@ -156,6 +164,14 @@ public class Board extends RelativeLayout implements GameListener {
 		ctx.update(game);
 	}
 
+	private void updateContext() {
+		post(new Runnable() {
+			public void run() {
+				ctx.update(game);
+			}
+		});
+	}
+
 	private void init(Context context) {
 		Log.d(TAG, "init()");
 		ctx = (GameActivity) context;
@@ -175,8 +191,7 @@ public class Board extends RelativeLayout implements GameListener {
 		return p;
 	}
 
-	void drawTopPits(final int cId) {
-		
+	private void drawTopPits(final int cId) {
 		addView(createPit(12, new int[][] {{above, cId}, {leftOf, 11}}));
 		addView(createPit(11, new int[][] {{above, cId}, {leftOf, 10}}));
 		addView(createPit(10, new int[][] {{above, cId}, {leftOf, cId}}));
@@ -185,7 +200,7 @@ public class Board extends RelativeLayout implements GameListener {
 		addView(createPit(7, new int[][] {{above, cId}, {rightOf, 8}}));
 	}
 	
-	void drawBottomPits(final int cId) {
+	private void drawBottomPits(final int cId) {
 		addView(createPit(1, new int[][] {{below, cId}, {leftOf, 2}}));
 		addView(createPit(2, new int[][] {{below, cId}, {leftOf, 3}}));
 		addView(createPit(3, new int[][] {{below, cId}, {leftOf, cId}}));
@@ -194,7 +209,7 @@ public class Board extends RelativeLayout implements GameListener {
 		addView(createPit(6, new int[][] {{below, cId}, {rightOf, 5}}));
 	}
 
-	void drawStores() {
+	private void drawStores() {
 		addView(updatePit(createStore(1000), new int[][] {{rightOf, 6}}, cp()));
 		addView(updatePit(createStore(2000), new int[][] {{leftOf, 12}}, cp()));
 	}
