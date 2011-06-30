@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:padding="15dp">
+	<LinearLayout 
+	  android:orientation="vertical"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_gravity="center"
+	  android:paddingLeft="20dp"
+	  android:paddingRight="20dp"
+	  >
+	  <TableLayout
+	  	android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:layout_gravity="center"
+	  	android:stretchColumns="*">
+	  	<TableRow>
+			  <Spinner
+			  	android:id="@+id/player_one_button"/>
+			  <Spinner
+			  	android:id="@+id/player_two_button"/>
+			  <Spinner
+			  	android:id="@+id/difficulty_button"/>
+	  	</TableRow>
+	  	<TableRow>
+			  <Button
+			  	android:id="@+id/play_button"
+			  	android:text="@string/play_label"/>
+			  <Button
+			  	android:id="@+id/cancel_button"
+			  	android:text="@string/cancel_label"/>
+	  	</TableRow>
+	  </TableLayout>
+	</LinearLayout>
+</LinearLayout>
+
+<!-- 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/layout_root"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:padding="10dp">
+              
+    <EditText android:id="@+id/search_query"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    
+    <LinearLayout android:orientation="horizontal"
+    android:background="@android:drawable/bottom_bar" android:paddingLeft="4.0dip"
+    android:paddingTop="5.0dip" android:paddingRight="4.0dip"
+    android:paddingBottom="1.0dip" android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+    <Button android:id="@+id/search" android:layout_width="0.0dip"
+        android:layout_height="fill_parent" android:text="Search"
+        android:layout_weight="1.0" />
+    <Button android:id="@+id/cancel" android:layout_width="0.0dip"
+        android:layout_height="fill_parent" android:text="Cancel"
+        android:layout_weight="1.0" />
+</LinearLayout>
+</LinearLayout> -->

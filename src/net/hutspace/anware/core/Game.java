@@ -74,6 +74,7 @@ public abstract class Game {
 		}
 		this.owner = owner;
 	}
+
 	
 	public Game(int who, int[] pits, int[] stores) {
 		this(who, pits, stores, null);
@@ -113,6 +114,21 @@ public abstract class Game {
 	}
 	
 
+	public String getUpdate() {
+		final int id = getWinner();
+		if (id != NO_WINNER) {
+			if (DRAW == id)
+				return "It is a draw!";
+			else
+				return String.format("%s has won!!", playerName(id));
+		} else
+			return String.format("%s to play", playerName(turn()));
+	}
+
+	private String playerName(final int id) {
+		return String.format("Player %s", id == PLAYER_ONE ? 1 : 2);
+	}
+	
 	void updateMoves() {
 		moves.add(currentMove);
 		++index;
