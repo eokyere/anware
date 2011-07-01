@@ -113,6 +113,8 @@ public class GameSettings extends Activity implements OnClickListener {
 				data.putExtra(Anware.PLAYER_TWO, 
 						player_two.getSelectedItemPosition());
 				data.putExtra(Anware.STARTING_PLAYER_KEY, Game.PLAYER_ONE);
+				data.putExtra(Anware.DIFFICULTY, 
+						difficulty.getSelectedItemPosition() + 1);
 				setResult(RESPONSE_PLAY, data);
 				break;
 			case R.id.cancel_button:

@@ -18,6 +18,7 @@ import android.widget.Toast;
 public class Anware extends Activity {
 	public static final String PLAYER_ONE = "net.hustspace.anware.p1";
 	public static final String PLAYER_TWO = "net.hutspace.anware.p2";
+	public static final String DIFFICULTY = "net.hutspace.anware.difficulty";
 	public static final String STARTING_PLAYER_KEY = "net.hutspace.anware.startingPlayer";
 
 	public static final int REQUEST_START_DIALOG = 1;
@@ -106,6 +107,7 @@ public class Anware extends Activity {
 			case GameSettings.RESPONSE_PLAY:
 				game.setAnware(data.getIntExtra(PLAYER_ONE, 0) != 0, 
 							   data.getIntExtra(PLAYER_TWO, 0) != 0);
+				game.setDifficulty(data.getIntExtra(DIFFICULTY, 2));
 				start();
 				break;
 			case GameSettings.RESPONSE_CANCEL:
