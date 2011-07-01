@@ -36,8 +36,7 @@ public class GameLoop extends Thread {
 		while (running) {
 //			Log.d(TAG, String.format("running - turn: %s", game.turn()));
 
-			if (board.isPlayingAgaistComputer() && game.aiToPlay() && 
-				game.currentMove == null) {
+			if (game.isAwareToPlay() && game.currentMove == null) {
 				if (game.getWinner() == Game.NO_WINNER)
 				{
 					Log.d("Board", "AI thinking ...");

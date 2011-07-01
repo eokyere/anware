@@ -1,5 +1,7 @@
 package net.hutspace.anware;
 
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class StartDialog extends Activity implements OnClickListener {
 	public static final int RESPONSE_EXIT = -1000;
@@ -18,15 +21,18 @@ public class StartDialog extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_dialog);
-        
-        findViewById(R.id.new_game_button).setOnClickListener(this);
-        findViewById(R.id.about_button).setOnClickListener(this);
-        findViewById(R.id.exit_button).setOnClickListener(this);
+        for (int id : Arrays.asList(R.id.new_game_button,
+        							R.id.about_button,
+        							R.id.exit_button))
+			getButton(id).setOnClickListener(this);
     }
+
+	private Button getButton(final int id) {
+		return (Button) findViewById(id);
+	}
 
 	@Override
 	public void onClick(View v) {
-		
 		switch (v.getId()) {
 			case R.id.new_game_button:
 				setResult(RESPONSE_NEW_GAME);
@@ -39,7 +45,7 @@ public class StartDialog extends Activity implements OnClickListener {
 		}
 		finish();
 	}
-
+	
 	private void aboutUs() {
 		final Context context = this;
 		new AlertDialog.Builder(this).
@@ -63,6 +69,4 @@ public class StartDialog extends Activity implements OnClickListener {
         //Store the game state
        // outState.putBundle("key", mSnakeView.saveState());
     }
-
-	
 }

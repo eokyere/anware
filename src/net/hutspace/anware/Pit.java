@@ -14,8 +14,8 @@ import android.view.View;
 public class Pit extends View {
 	private static final String TAG = "Pit";
 	static Paint paint = new Paint();
-	public static final float W = 54.0f;
-	public static final float H = 90.0f;
+	public static final float W = 29.0f;
+	public static final float H = 50.0f;
 	protected Board board;
 	
 	public Pit(Context context) {
@@ -65,12 +65,11 @@ public class Pit extends View {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
-		setMeasuredDimension((int) dpi(W), (int) dpi(H));
+		setMeasuredDimension((int) px(W), (int) px(H));
 	}
 
-	private float dpi(final float val) {
-		final float dpi = getResources().getDisplayMetrics().density;
-		return val / dpi;
+	private float px(final float val) {
+		return val / getResources().getDisplayMetrics().density;
 	}
 	
 	private void init(Context context) {

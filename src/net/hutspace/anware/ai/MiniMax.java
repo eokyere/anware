@@ -77,6 +77,6 @@ public class MiniMax implements AI {
 	}
 	
 	private boolean isMax(Game game) {
-		return game.turn() == Game.PLAYER_TWO;
+		return game.isAwareToPlay();
 	}
 }

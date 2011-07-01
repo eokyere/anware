@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Toast;
 
 public class Anware extends Activity {
+	public static final String PLAYER_ONE = "net.hustspace.anware.p1";
+	public static final String PLAYER_TWO = "net.hutspace.anware.p2";
 	public static final String STARTING_PLAYER_KEY = "net.hutspace.anware.startingPlayer";
 
 	public static final int REQUEST_START_DIALOG = 1;
@@ -22,7 +24,6 @@ public class Anware extends Activity {
 
 	private Board board;
 	private Game game;
-//	private TextView txtInfo;
 	private List<View> pits;
 
 	private GameLoop loop;
@@ -34,11 +35,8 @@ public class Anware extends Activity {
 		
 		board = (Board) findViewById(R.id.game_board);
 
-//		txtInfo = (TextView) findViewById(R.id.txt_turn);
 //		Button btnUndo = (Button) findViewById(R.id.btn_undo);
 //		Button btnRedo = (Button) findViewById(R.id.btn_redo);
-		
-		
 //		btnUndo.setOnClickListener(new OnClickListener() {			
 //			@Override
 //			public void onClick(View v) {
@@ -59,10 +57,7 @@ public class Anware extends Activity {
 		pits = new ArrayList<View>();
 		for (int i = 1; i < 13; ++i)
 			pits.add(findViewById(i));
-
-		//		intent.putExtra(Anware.STARTING_PLAYER_KEY, which);
 		showStartDialog();		
-//		start();
 	}
 
 	private void showStartDialog() {
@@ -97,8 +92,6 @@ public class Anware extends Activity {
 			case StartDialog.RESPONSE_ABOUT:
 				break;
 			case StartDialog.RESPONSE_NEW_GAME:
-				// do updates to game
-				//start();
 				startActivityForResult(new Intent(this, GameSettings.class), 	
 									   REQUEST_GAME_SETTINGS);
 			}
@@ -106,6 +99,8 @@ public class Anware extends Activity {
 		case (REQUEST_GAME_SETTINGS):
 			switch (resp) {
 			case GameSettings.RESPONSE_PLAY:
+				game.setAnware(data.getIntExtra(PLAYER_ONE, 0) != 0, 
+							   data.getIntExtra(PLAYER_TWO, 0) != 0);
 				start();
 				break;
 			case GameSettings.RESPONSE_CANCEL:
@@ -162,7 +157,6 @@ public class Anware extends Activity {
 	}
 
 	public void update(final String info) {
-		//txtInfo.setText(s);
 		Toast.makeText(getApplicationContext(), 
 					   info, 
 					   Toast.LENGTH_SHORT).show();

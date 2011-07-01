@@ -20,6 +20,7 @@ public abstract class Game {
 	Integer currentMove = null;
 	int hand;
 	int spot;
+	boolean[] anware = new boolean[] {false, false};
 	
 	GameListener listener;
 	
@@ -294,13 +295,23 @@ public abstract class Game {
 	}
 
 
-	public boolean aiToPlay() {
-		return turn() == 1;
+	public boolean isAwareToPlay() {
+		return anware[turn()];
 	}
 
 
 	public void setDifficulty(int difficulty) {
 		this.difficulty = difficulty;
+	}
+	
+	public void setAnware(boolean p1, boolean p2){
+		anware = new boolean[]{p1, p2};
+	}
+	
+	public boolean isAnware(int id) {
+		if (id > anware.length - 1)
+			return false;
+		return anware[id];
 	}
 
 	public int getDifficulty() {
