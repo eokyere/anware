@@ -32,8 +32,19 @@ public class WoodenPit extends Pit {
 		new int[] { Color.rgb(0x77, 0xcc, 0x66),
 					Color.rgb(0x22, 0x77, 0x00) } };
 	
+	private static final List<int[]> PEBBLES;
+	static {
+		PEBBLES = new ArrayList<int[]>();
+		for (int i = 0; i < 48; ++i) {
+			PEBBLES.add(COLORS[(int) Math.floor(Math.random() * COLORS.length)]);
+		}
+	}
+	
 	final static int PEBBLE_SZ = 6;
 	final static int K = 1;
+	
+	private List<int[]> colors = new ArrayList<int[]>();
+	private List<Point> points = new ArrayList<Point>();
 	
 	public WoodenPit(Context context) {
 		super(context);
@@ -56,10 +67,43 @@ public class WoodenPit extends Pit {
 		final int r = getWidth() / 2 - 2 - 7;
 		final int r2 = getHeight() / 2 - 2 - 7;
 		
-		for (int i = 0; i < seeds(); ++i) {
-			final Point pt = getRandomPoint(r, r2);
-			drawPebbble(canvas, pt,
-					COLORS[(int) Math.floor(Math.random() * COLORS.length)]);
+		int n = seeds();
+		final int size = points.size();
+		final int sz = getWidth() / 9;
+		
+		if (size > 0) {
+			int i = 0;
+			if (n < size) {
+				points = new ArrayList<Point>();
+				colors = new ArrayList<int[]>();
+				for (; i < n; ++i) {
+					final Point pt = getRandomPoint(r, r2);
+					int[] cols = COLORS[(int) Math.floor(Math.random() * COLORS.length)];
+					points.add(pt);
+					colors.add(cols);
+					drawPebbble(canvas, pt, cols, sz);
+				}
+			} else {
+				for (; i < size; ++i)
+					drawPebbble(canvas, points.get(i), colors.get(i), sz);
+				if (n > size)
+					for (; i < n; ++i)
+					{
+						final Point pt = getRandomPoint(r, r2);
+						int[] cols = COLORS[(int) Math.floor(Math.random() * COLORS.length)];
+						points.add(pt);
+						colors.add(cols);
+						drawPebbble(canvas, pt, cols, sz);
+					}
+			}
+		} else {
+			for (int i = 0; i < n; ++i) {
+				final Point pt = getRandomPoint(r, r2);
+				int[] cols = COLORS[(int) Math.floor(Math.random() * COLORS.length)];
+				points.add(pt);
+				colors.add(cols);
+				drawPebbble(canvas, pt, cols, sz);
+			}
 		}
 	}
 	
@@ -68,14 +112,15 @@ public class WoodenPit extends Pit {
 		setBackgroundDrawable(new Background(this));
 	}
 
-	private static void drawPebbble(Canvas canvas, final Point offset, final int[] colors) {
-		drawPebble(canvas, offset.x, offset.y, colors);
+	private static void drawPebbble(Canvas canvas, final Point offset, final int[] colors, int sz) {
+		drawPebble(canvas, offset.x, offset.y, colors, sz);
 	}
 
-	private static void drawPebble(Canvas canvas, int xo, int yo, final int[] colors) {
-		final int r = PEBBLE_SZ - K;
-		final int x = xo + PEBBLE_SZ;
-		final int y = yo + PEBBLE_SZ;
+	private static void drawPebble(Canvas canvas, int xo, int yo, final int[] colors, int sz) {
+		
+		final int r = sz - K;
+		final int x = xo + sz;
+		final int y = yo + sz;
 
 		drawShadow(canvas, x, 3 * r - 2 + yo, (int) 1.5 * r);
 		drawPebble(canvas, x, y, r, colors);
