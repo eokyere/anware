@@ -13,24 +13,11 @@ public class Prefs extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.settings);
 	}
 
-	public static boolean againstComputer(Context context) {
-		return prefs(context).getBoolean("againstComputer", false);
-	}
-
 	public static int sleepInterval(Context context) {
 		return 1000 / fps(Integer.parseInt(prefs(context).getString(
 				"animationSpeed", "1")));
 	}
 	
-	public static boolean chooseStartingPlayer(Context context) {
-		return prefs(context).getBoolean("chooseStartingPlyaerAtStart", false);
-	}
-
-	public static int difficulty(Context context) {
-		return Integer
-				.parseInt(prefs(context).getString("animationSpeed", "1"));
-	}
-
 	private static SharedPreferences prefs(Context context) {
 		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
@@ -40,9 +27,9 @@ public class Prefs extends PreferenceActivity {
 		case 0:
 			return 1;
 		case 2:
-			return 10;
-		default:
 			return 5;
+		default:
+			return 2;
 		}
 	}
 }

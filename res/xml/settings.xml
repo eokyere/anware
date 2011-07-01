@@ -3,10 +3,6 @@
 	<PreferenceCategory 
 		android:title="General settings"
 		android:summary="">
-		<CheckBoxPreference android:key="chooseStartingPlyaerAtStart"
-			android:title="@string/chooseStartingPlayerAtStart"
-			android:summary="@string/chooseStartingPlayerAtStartSummary"
-			android:defaultValue="true"/>	
 		<ListPreference
         android:key="animationSpeed"
         android:title="Animation speed"
@@ -14,6 +10,7 @@
         android:entries="@array/animationSpeed"
         android:entryValues="@array/animationSpeedValues"/>			
 	</PreferenceCategory>
+<!-- 
 	<PreferenceCategory 
 		android:title="Player options"
 		android:summary="">
@@ -29,4 +26,5 @@
         android:entries="@array/difficulty"
         android:entryValues="@array/difficultyValues"/>			
 	</PreferenceCategory>
+ -->
 </PreferenceScreen>

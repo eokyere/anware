@@ -16,6 +16,7 @@ public class StartDialog extends Activity implements OnClickListener {
 	public static final int RESPONSE_EXIT = -1000;
 	public static final int RESPONSE_NEW_GAME = 1000;
 	public static final int RESPONSE_ABOUT = 100;
+	public static final int RESPONSE_RULES = 101;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,8 @@ public class StartDialog extends Activity implements OnClickListener {
         setContentView(R.layout.start_dialog);
         for (int id : Arrays.asList(R.id.new_game_button,
         							R.id.about_button,
-        							R.id.exit_button))
+        							R.id.exit_button,
+        							R.id.rules_button))
 			getButton(id).setOnClickListener(this);
     }
 
@@ -42,26 +44,29 @@ public class StartDialog extends Activity implements OnClickListener {
 				break;
 			case R.id.exit_button:
 				setResult(RESPONSE_EXIT);
+				break;
+			case R.id.rules_button:
+				setResult(RESPONSE_RULES);
 		}
 		finish();
 	}
 	
-	private void aboutUs() {
-		final Context context = this;
-		new AlertDialog.Builder(this).
-			setTitle(R.string.new_game_label).
-			setItems(R.array.startingPlayer, 
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, 
-							final int which) {
-						final Intent intent = new Intent(context, Anware.class);
-						intent.putExtra(Anware.STARTING_PLAYER_KEY, which);
-						startActivity(intent);
-					}
-				}).show();			
-		//startActivity(new Intent(this, GameActivity.class));
-	}
+//	private void aboutUs() {
+//		final Context context = this;
+//		new AlertDialog.Builder(this).
+//			setTitle(R.string.new_game_label).
+//			setItems(R.array.startingPlayer, 
+//				new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, 
+//							final int which) {
+//						final Intent intent = new Intent(context, Anware.class);
+//						intent.putExtra(Anware.STARTING_PLAYER_KEY, which);
+//						startActivity(intent);
+//					}
+//				}).show();			
+//		//startActivity(new Intent(this, GameActivity.class));
+//	}
 
 	
     @Override

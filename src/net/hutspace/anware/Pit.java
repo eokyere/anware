@@ -11,8 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class Pit extends View {
-	private static final String TAG = "Pit";
-	static Paint paint = new Paint();
+	static final String TAG = "Pit";
+	protected static Paint paint = new Paint();
 	public static final float W = 29.0f;
 	public static final float H = 50.0f;
 	protected Board board;

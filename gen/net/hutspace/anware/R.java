@@ -43,23 +43,26 @@ public final class R {
         public static final int wood=0x7f020003;
     }
     public static final class id {
-        public static final int about_button=0x7f0b0008;
+        public static final int about_button=0x7f0b0009;
         public static final int about_content=0x7f0b0000;
-        public static final int cancel_button=0x7f0b0006;
-        public static final int difficulty_button=0x7f0b0004;
-        public static final int exit_button=0x7f0b0009;
+        public static final int cancel_button=0x7f0b0007;
+        public static final int difficulty_button=0x7f0b0005;
+        public static final int exit_button=0x7f0b000a;
         public static final int game_board=0x7f0b0001;
-        public static final int new_game_button=0x7f0b0007;
-        public static final int play_button=0x7f0b0005;
-        public static final int player_one_button=0x7f0b0002;
-        public static final int player_two_button=0x7f0b0003;
-        public static final int settings=0x7f0b000a;
+        public static final int new_game_button=0x7f0b0008;
+        public static final int oware_rules_content=0x7f0b0002;
+        public static final int play_button=0x7f0b0006;
+        public static final int player_one_button=0x7f0b0003;
+        public static final int player_two_button=0x7f0b0004;
+        public static final int rules_button=0x7f0b000b;
+        public static final int settings=0x7f0b000c;
     }
     public static final class layout {
         public static final int about=0x7f030000;
         public static final int board=0x7f030001;
-        public static final int game_settings=0x7f030002;
-        public static final int start_dialog=0x7f030003;
+        public static final int game_rules=0x7f030002;
+        public static final int game_settings=0x7f030003;
+        public static final int start_dialog=0x7f030004;
     }
     public static final class menu {
         public static final int menu=0x7f0a0000;
@@ -94,6 +97,7 @@ public final class R {
         public static final int player1=0x7f08000d;
         public static final int player2=0x7f08000e;
         public static final int random=0x7f08000f;
+        public static final int rules_label=0x7f080020;
         public static final int selectStartingPlayer=0x7f080010;
         public static final int settingsLabel=0x7f08000a;
         public static final int settingsShortcutKey=0x7f08000c;

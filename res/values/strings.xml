@@ -15,22 +15,18 @@ sowing seeds in pits, in order to capture seeds controlled by a player\'s
 opponent.
 
 Oware is mostly played throughout West Africa and the Caribbean.</string>
-		<string name="oware_rules">Starting: Each player takes it in turns to start. The player must then choose a house from their own territory, from which \
-all the seeds are scooped.
-		 
-Sowing seeds: The seeds are then sown in an anticlockwise direction placing \
-one seed in each house as one travel, around the board. If the last seed drops \
-in a house with seeds in it, all the seeds are scooped up and then sown until \
-ones last seed lands in a house, which is empty. If at any point in the game \
-one player does not have any seeds, the other player must sow seeds from a \
-house that would provide the opponent with seeds to continue playing the game. \
-If this is not possible then the game comes to an end, with the remaining seeds \
-going the player who has the seeds on their territory.
-
-Capturing seeds: Seeds are captured when the sowing of seeds by either player \
-creates four seeds on ones territory. One can only capture seeds on ones own \
-territory, except when four seeds are made with ones last seed on the opponent\'s \
-territory. Once the seeds are captured they are placed in ones store.</string>
+		<string name="oware_rules">Starting: Each player takes it in turns to start. 
+The player must then choose a house from their own territory, from which all 
+the seeds are scooped.\n\n
+Sowing: The seeds are then sown in an anticlockwise direction placing one 
+seed in each house as one travel, around the board. If the last seed drops in a 
+house with seeds in it, all the seeds are scooped up and then sown until ones 
+last seed lands in a house, which is empty.\n\n
+Capturing: Seeds are captured when the sowing of seeds by either player 
+creates four seeds on ones territory. One can only capture seeds on ones own 
+territory, except when four seeds are made with ones last seed on the 
+opponent\'s territory. Once the seeds are captured they are placed in ones store.
+</string>
     <string name="gameTitle">Game</string>
     <string name="board_title">Game</string>
     <string name="settingsLabel">Settings ...</string>
@@ -66,4 +62,5 @@ territory. Once the seeds are captured they are placed in ones store.</string>
     
     <string name="cancel_label">Cancel</string>
     <string name="play_label">Play</string>
+    <string name="rules_label">Oware Rules</string>
 </resources>

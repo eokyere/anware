@@ -21,8 +21,10 @@ public class Anware extends Activity {
 	public static final String DIFFICULTY = "net.hutspace.anware.difficulty";
 	public static final String STARTING_PLAYER_KEY = "net.hutspace.anware.startingPlayer";
 
-	public static final int REQUEST_START_DIALOG = 1;
+	private static final int REQUEST_START_DIALOG = 1;
 	private static final int REQUEST_GAME_SETTINGS = 2;
+	private static final int REQUEST_ABOUT = 3;
+	private static final int REQUEST_GAME_RULES = 4;
 
 	private Board board;
 	private Game game;
@@ -90,19 +92,26 @@ public class Anware extends Activity {
 	
 	protected void onActivityResult(int req, int resp, Intent data) {
 		switch (req) {
-		case (REQUEST_START_DIALOG):
+		case REQUEST_START_DIALOG:
 			switch (resp) {
 			case StartDialog.RESPONSE_EXIT:
 				exit();
 				break;
 			case StartDialog.RESPONSE_ABOUT:
+				startActivityForResult(new Intent(this, About.class),
+									   REQUEST_ABOUT);
 				break;
 			case StartDialog.RESPONSE_NEW_GAME:
 				startActivityForResult(new Intent(this, GameSettings.class), 	
 									   REQUEST_GAME_SETTINGS);
+				break;
+			case StartDialog.RESPONSE_RULES:
+				startActivityForResult(new Intent(this, OwareRules.class),
+									   REQUEST_GAME_RULES);
+				break;
 			}
 			break;
-		case (REQUEST_GAME_SETTINGS):
+		case REQUEST_GAME_SETTINGS:
 			switch (resp) {
 			case GameSettings.RESPONSE_PLAY:
 				game.setAnware(data.getIntExtra(PLAYER_ONE, 0) != 0, 
@@ -115,6 +124,13 @@ public class Anware extends Activity {
 					showStartDialog();
 				break;
 			}
+			break;
+		case REQUEST_ABOUT:
+			showStartDialog();
+			break;
+		case REQUEST_GAME_RULES:
+			showStartDialog();
+			break;
 		}
 	}
 
@@ -134,21 +150,6 @@ public class Anware extends Activity {
 		loop = new GameLoop(board, game);
 		loop.setRunning(true);
 		loop.start();
-	}
-
-	private Game getSavedGame(Bundle savedInstanceState) {
-//		if (null == savedInstanceState) {
-//		} else {
-//			Bundle map = savedInstanceState.getBundle("game");
-//			
-//			int[] pits = map.getIntArray("pits");
-//			int[] owner = map.getIntArray("owner");
-//			int[] stores = map.getIntArray("stores");
-//			int who = map.getInt("who");
-//			
-//			game = new NamNamGame(who, pits, stores, owner);
-//		}
-		return null;
 	}
 
 	private int getStartPlayer() {

@@ -71,6 +71,8 @@ public class WoodenPit extends Pit {
 		final int size = points.size();
 		final int sz = getWidth() / 9;
 		
+		canvas.drawText("" + seeds(), getWidth() / 2 - 5, 9, Pit.paint);
+		
 		if (size > 0) {
 			int i = 0;
 			if (n < size) {

@@ -26,6 +26,10 @@
 			  	android:id="@+id/about_button"
 			  	android:text="@string/about_label"
 			  	/>
+			  <Button
+			  	android:id="@+id/rules_button"
+			  	android:text="@string/rules_label"
+			  	/>
 	  	</TableRow>
 		</TableLayout>
 </LinearLayout>

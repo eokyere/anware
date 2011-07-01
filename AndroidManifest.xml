@@ -31,5 +31,9 @@
         <activity android:name=".Prefs"
                   android:label="@string/settingsTitle">
         </activity>
+        <activity android:name=".OwareRules"
+                  android:label="@string/rules_label"
+                  android:theme="@android:style/Theme.Dialog">
+        </activity>
     </application>
 </manifest>

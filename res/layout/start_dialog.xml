@@ -23,5 +23,8 @@
 	  <Button
 	  	android:id="@+id/exit_button"
 	  	android:text="@string/exit_label"/>
+	  <Button
+	  	android:id="@+id/rules_button"
+	  	android:text="@string/rules_label"/>
 	</LinearLayout>
 </LinearLayout>
