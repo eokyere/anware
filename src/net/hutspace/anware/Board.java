@@ -79,7 +79,6 @@ public class Board extends RelativeLayout implements GameListener {
 		return Prefs.sleepInterval(getContext());
 	}
 	
-	@Override
 	public void onScoop(final int id, int seeds) {
 		Log.d(TAG, String.format("onScoop(%s, %s)", id, seeds));
 		post(new Runnable() {
@@ -90,7 +89,6 @@ public class Board extends RelativeLayout implements GameListener {
 		});
 	}
 
-	@Override
 	public void onSow(final int id) {
 		Log.d(TAG, String.format("onSow(%s)", id));
 		post(new Runnable() {
@@ -101,7 +99,6 @@ public class Board extends RelativeLayout implements GameListener {
 		});
 	}
 
-	@Override
 	public void onHarvest(final int id, final int who) {
 		post(new Runnable() {
 			public void run() {
@@ -113,7 +110,6 @@ public class Board extends RelativeLayout implements GameListener {
 		});
 	}
 	
-	@Override
 	public void onGameEnded() {
 		post(new Runnable() {
 			public void run() {
@@ -122,12 +118,10 @@ public class Board extends RelativeLayout implements GameListener {
 		});
 	}
 	
-	@Override
 	public void onNext() {
 		updateContext();
 	}
 	
-	@Override
 	public void onUndo() {
 		Log.d(TAG, "onUndo");
 		post(new Runnable() {
@@ -138,7 +132,6 @@ public class Board extends RelativeLayout implements GameListener {
 		});
 	}
 
-	@Override
 	public void onRedo() {
 		Log.d(TAG, "onRedo");
 		post(new Runnable() {
