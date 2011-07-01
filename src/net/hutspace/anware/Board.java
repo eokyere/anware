@@ -22,7 +22,7 @@ public class Board extends RelativeLayout implements GameListener {
 	static final int rightOf = RelativeLayout.RIGHT_OF;
 	static final int above = RelativeLayout.ABOVE;
 
-	private GameActivity ctx;
+	private Anware anware;
 	private Game game;
 	
 	public Board(Context context) {
@@ -65,11 +65,10 @@ public class Board extends RelativeLayout implements GameListener {
 			public void run() {
 				try {
 					game.move(i);
-					updateContext();
 				} catch (IllegalMove e) {
 					post(new Runnable() {
 						public void run() {
-							startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.shake));
+							startAnimation(AnimationUtils.loadAnimation(anware, R.anim.shake));
 						}
 					});
 				}
@@ -129,6 +128,15 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 	
 	@Override
+	public void onGameEnded() {
+		post(new Runnable() {
+			public void run() {
+				anware.reset();
+			}
+		});
+	}
+	
+	@Override
 	public void onNext() {
 		updateContext();
 	}
@@ -161,20 +169,33 @@ public class Board extends RelativeLayout implements GameListener {
 			final int storeId = i * 1000;
 			findViewById(storeId).invalidate();
 		}
-		ctx.update(game);
+		anware.update(game);
 	}
 
 	private void updateContext() {
+		final Game g = game;
+		updateContext(g);
+	}
+
+	private void updateContext(final Game g) {
 		post(new Runnable() {
 			public void run() {
-				ctx.update(game);
+				anware.update(g);
 			}
 		});
 	}
 
+	private void updateContext(final String info) {
+		post(new Runnable() {
+			public void run() {
+				anware.update(info);
+			}
+		});
+	}
+	
 	private void init(Context context) {
 		Log.d(TAG, "init()");
-		ctx = (GameActivity) context;
+		anware = (Anware) context;
 		setGravity(Gravity.CENTER);
 	}
 

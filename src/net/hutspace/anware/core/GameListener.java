@@ -7,4 +7,5 @@ public interface GameListener {
 	void onUndo();
 	void onRedo();
 	void onNext();
+	void onGameEnded();
 }

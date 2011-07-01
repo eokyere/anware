@@ -34,10 +34,7 @@ public class GameLoop extends Thread {
 	@Override
 	public void run() {
 		while (running) {
-			Log.d(TAG, String.format("running - turn: %s", game.turn()));
-
-			if (board.isPlayingAgaistComputer() && game.aiToPlay() && 
-				game.currentMove == null) {
+			if (game.isAwareToPlay() && game.currentMove == null) {
 				if (game.getWinner() == Game.NO_WINNER)
 				{
 					Log.d("Board", "AI thinking ...");
@@ -48,9 +45,15 @@ public class GameLoop extends Thread {
 			game.update();
 			try {
 				Thread.sleep(interval);
+				if (game.getWinner() != Game.NO_WINNER) {
+					setRunning(false);
+					Thread.sleep(4000);
+					game.setEnded(true);
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}
 	}
 }

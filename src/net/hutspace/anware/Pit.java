@@ -13,7 +13,8 @@ import android.view.View;
 public class Pit extends View {
 	private static final String TAG = "Pit";
 	static Paint paint = new Paint();
-	public static final float W = 56.0f;
+	public static final float W = 29.0f;
+	public static final float H = 50.0f;
 	protected Board board;
 	
 	public Pit(Context context) {
@@ -33,11 +34,13 @@ public class Pit extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		Log.d(TAG, String.format("onDraw(%s)", getId()));
+		final int id = getId();
+		Log.d(TAG, String.format("onDraw(id=%s)", id));
 		final float cx = getWidth() / 2;
-		final float r = cx - 2;
-		canvas.drawCircle(cx, cx, r, paint);
-		canvas.drawText("" + seeds(), cx, cx, paint);
+		final float cy = getHeight() / 2;
+		final float r = Math.min(cx, cy) - 2;
+		canvas.drawText("" + seeds(), cx, 10 , paint);
+		canvas.drawCircle(cx, cy, r, paint);
 	}
 	
 	protected int seeds() {
@@ -61,9 +64,11 @@ public class Pit extends View {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
-		final float dpi = getResources().getDisplayMetrics().density;
-		final int x = (int)(W * dpi);
-		setMeasuredDimension(x, x);
+		setMeasuredDimension((int) px(W), (int) px(H));
+	}
+
+	private float px(final float val) {
+		return val / getResources().getDisplayMetrics().density;
 	}
 	
 	private void init(Context context) {

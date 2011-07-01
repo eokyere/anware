@@ -20,6 +20,7 @@ public abstract class Game {
 	Integer currentMove = null;
 	int hand;
 	int spot;
+	boolean[] anware = new boolean[] {false, false};
 	
 	GameListener listener;
 	
@@ -44,6 +45,10 @@ public abstract class Game {
 		this.listener = listener;
 	}
 
+	public void setEnded(boolean b) {
+		if (b && listener != null)
+			listener.onGameEnded();
+	}
 	
 	Game() {
 		this(PLAYER_ONE);
@@ -74,6 +79,7 @@ public abstract class Game {
 		}
 		this.owner = owner;
 	}
+
 	
 	public Game(int who, int[] pits, int[] stores) {
 		this(who, pits, stores, null);
@@ -113,6 +119,21 @@ public abstract class Game {
 	}
 	
 
+	public String getUpdate() {
+		final int id = getWinner();
+		if (id != NO_WINNER) {
+			if (DRAW == id)
+				return "It is a draw!";
+			else
+				return String.format("%s has won!!", playerName(id));
+		} else
+			return String.format("%s to play", playerName(turn()));
+	}
+
+	private String playerName(final int id) {
+		return String.format("Player %s", id == PLAYER_ONE ? 1 : 2);
+	}
+	
 	void updateMoves() {
 		moves.add(currentMove);
 		++index;
@@ -278,13 +299,23 @@ public abstract class Game {
 	}
 
 
-	public boolean aiToPlay() {
-		return turn() == 1;
+	public boolean isAwareToPlay() {
+		return anware[turn()];
 	}
 
 
 	public void setDifficulty(int difficulty) {
 		this.difficulty = difficulty;
+	}
+	
+	public void setAnware(boolean p1, boolean p2){
+		anware = new boolean[]{p1, p2};
+	}
+	
+	public boolean isAnware(int id) {
+		if (id > anware.length - 1)
+			return false;
+		return anware[id];
 	}
 
 	public int getDifficulty() {
