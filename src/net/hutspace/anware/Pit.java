@@ -67,7 +67,7 @@ public class Pit extends View {
 		setMeasuredDimension((int) px(W), (int) px(H));
 	}
 
-	private float px(final float val) {
+	protected float px(final float val) {
 		return val / getResources().getDisplayMetrics().density;
 	}
 	

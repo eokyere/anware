@@ -1,5 +1,8 @@
 package net.hutspace.anware.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.hutspace.anware.Pit;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,7 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 public class WoodenPit extends Pit {
-	private static Drawable bg = new Background();
+//	private static Drawable bg = new Background();
 	private static int[][] COLORS = new int[][] {
 		new int[] { Color.rgb(0x66, 0x77, 0xee),
 					Color.rgb(0x00, 0x22, 0x77) },
@@ -28,6 +31,7 @@ public class WoodenPit extends Pit {
 					Color.rgb(0x55, 0x00, 0x77) },
 		new int[] { Color.rgb(0x77, 0xcc, 0x66),
 					Color.rgb(0x22, 0x77, 0x00) } };
+	
 	final static int PEBBLE_SZ = 6;
 	final static int K = 1;
 	
@@ -50,25 +54,18 @@ public class WoodenPit extends Pit {
 	protected void onDraw(Canvas canvas) {
 		// drawCircle(canvas);
 		final int r = getWidth() / 2 - 2 - 7;
+		final int r2 = getHeight() / 2 - 2 - 7;
 		
 		for (int i = 0; i < seeds(); ++i) {
-			final Point pt = getRandomPoint(r);
+			final Point pt = getRandomPoint(r, r2);
 			drawPebbble(canvas, pt,
 					COLORS[(int) Math.floor(Math.random() * COLORS.length)]);
 		}
 	}
 	
-	@Override
-	protected void onMeasure(int w, int h) {
-		super.onMeasure(w, h);
-		final float dpi = getResources().getDisplayMetrics().density;
-		final int x = (int)(W * dpi);
-		setMeasuredDimension(x, x);
-	}
-	
 	private void init() {
 		//d = (GradientDrawable) getResources().getDrawable(R.drawable.rounded_rect);
-		setBackgroundDrawable(bg);
+		setBackgroundDrawable(new Background(this));
 	}
 
 	private static void drawPebbble(Canvas canvas, final Point offset, final int[] colors) {
@@ -123,22 +120,24 @@ public class WoodenPit extends Pit {
 		canvas.drawPoint(x - 1, y - r / 2, p);
 	}
 
-	private static Point getRandomPoint(float r) {
+	private static Point getRandomPoint(float r, float r2) {
 		double theta = Math.random() * 360;
 		double s = Math.random() * r;
 		return new Point((int) (Math.cos(theta) * s + r),
-				(int) (Math.sin(theta) * s + r));
+						 (int) (Math.sin(theta) * s + r2));
 	}	
 	
 	private static class Background extends Drawable {
-		private int c(float pct) {
-			return (int) ((pct/100) * 255);
+		private WoodenPit pit;
+
+		public Background(WoodenPit pit) {
+			this.pit = pit;
 		}
 
 		@Override
 		public void draw(Canvas canvas) {
-			final int w = (int) W;
-			final float cx = w / 2;
+			final float cy = pit.getHeight() / 2;
+			final float cx = pit.getWidth() / 2;
 			final float r = cx - 1;
 			
 			
@@ -154,7 +153,7 @@ public class WoodenPit extends Pit {
 			positions[1] = 1 - 0.20f;
 			positions[0] = 1 - 1.0f;
 			
-			final Point p = new Point((int) cx, (int) cx);
+			final Point p = new Point((int) cx, (int) cy);
 			final RadialGradient shader = new RadialGradient(p.x, p.y, r,
 					colors, positions, TileMode.CLAMP);
 			
@@ -178,6 +177,10 @@ public class WoodenPit extends Pit {
 
 		@Override
 		public void setColorFilter(ColorFilter cf) {
+		}
+
+		private static int c(float pct) {
+			return (int) ((pct/100) * 255);
 		}
 	}
 }
