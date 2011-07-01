@@ -51,13 +51,17 @@ public class Anware extends Activity {
 //			}
 //		});
 		
+		reset();		
+	}
+	
+	public void reset() {
 		game = new NamNamGame(getStartPlayer());
 		board.setGame(game);
 
 		pits = new ArrayList<View>();
 		for (int i = 1; i < 13; ++i)
 			pits.add(findViewById(i));
-		showStartDialog();		
+		showStartDialog();
 	}
 
 	private void showStartDialog() {

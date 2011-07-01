@@ -128,6 +128,15 @@ public class Board extends RelativeLayout implements GameListener {
 	}
 	
 	@Override
+	public void onGameEnded() {
+		post(new Runnable() {
+			public void run() {
+				anware.reset();
+			}
+		});
+	}
+	
+	@Override
 	public void onNext() {
 		updateContext();
 	}

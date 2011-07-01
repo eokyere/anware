@@ -45,6 +45,10 @@ public abstract class Game {
 		this.listener = listener;
 	}
 
+	public void setEnded(boolean b) {
+		if (b && listener != null)
+			listener.onGameEnded();
+	}
 	
 	Game() {
 		this(PLAYER_ONE);
